@@ -90,3 +90,33 @@ See the [taxonomy tutorial](https://benjjneb.github.io/dada2/assign.html) for fu
 We detected that, in some cases, merging tables from different runs gives reads that are identical but differ in length by a few base pairs. We provide here the script `3_run_cluster_sequences.sh`, which does a 100% identity clustering of the fasta file from the previous step. Additionaly, it creates a table with ASVs to OTUs correspondence.
 
 This script can also be used to do clustering with lower identities (97%, for example). All you have to do is to change this value in the `USEARCH` command inside the script. 
+
+# Some general rules 
+
+Some tips about the parameter selection!
+
+- Cut your primers. `cutadapt` does the job really easy! 
+
+- If around 25-30 % of the reads are lost in the process of ASV generation, possibly some of the parameters have to be changed. 
+
+	* Are you sure that the primers from the FASTQ are removed?
+
+ * What `maxee` did you specify? If this is making many reads to be lost, you can specify a bigger maxee, and even different values for the F and R reads (for example `c(2,4)`).
+The algorithm will take into account the errors in the modelling phase, so this will not make your ASVs erroneus. 
+
+ * Does the pair of reads overlapp? By how many bases? It should be >= 20 nt. 
+
+> If you follow the tutorial, at the end of the procedure a **track analysis** is generated specifing how many reads are lost along the whole procedure. It is the best way to know where it failed. 
+
+- In the trimming procedure, the `truncLen` cuts all the reads to an specific length and *removes* all reads being smaller.  It is important then to know the average read length, since if you go too low with the trimming you will lose too much reads. 
+
+ * In the pipeline of DADA2 there is a quality profile, you should be aware of it in deciding where to cut.
+ 
+ * For each run the trimming point is different, so if you are working on multiple runs each of them have to be processed separatedly and then joined together with `mergeSequenceTables`. 
+
+ * You should have an analysis of the FASTQs. The av. length, the avg quality for each sample, and so on. Many of the problems with recovering most of the reads
+stem from having a low quality sample, or the reads not being properly amplified. `seqkit` is a good tool for this kind of information. 
+
+- The taxonomy assignation is realized at the Species level only if only a 100%, exact matching. This can make that some bacteria/eukarya present some differences
+in the identification at that level when comparing with OTU results. See a link explaining this in more detail [here](https://benjjneb.github.io/dada2/assign.html#species-assignment).
+
