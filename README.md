@@ -50,6 +50,8 @@ In this preprocessing step, we provide the script `XXXX.sh`, which trims primers
 
 The first step in `DADA2` is to check the quality of your sequencing data. To do so, we provide the script `0_run-qscore.sh`, which calls the R script `0_qscore.R`. Basically, it creates 2 pdf files (forward and reverse) with the q score profile of your first 9 samples (or all your samples if your dataset is smaller). The files generated look like this:
 
+![](.example_graphs/forward.pdf)
+
 **FALTA IMATGE**
 
 Inspecting the quality of your samples will help you decide where to trim them in the following step. It is advisable to always trim (10 bp if your reads are good quality), as you remove the most error-prone regions of your sequences. Given the plots above, we would trim around  **X** for the forward read and **X** for the reverse one.
