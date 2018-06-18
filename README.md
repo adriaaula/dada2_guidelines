@@ -26,7 +26,7 @@ To download the pipeline to your computer/cluster, open the terminal and go to y
 
 ```
 
-(You can also download the repository from the Github server)
+(You can also download the repository from the [Github server](https://github.com/adriaaula/dada2_guidelines)).
 
 The directory `dada_guidelines/` will be copied to your computer. It contains the following files and subdirectories:
 
@@ -35,7 +35,7 @@ The directory `dada_guidelines/` will be copied to your computer. It contains th
 - `analysis/`: where output files will be written. Contains the `logs/` subdirectory, where log files will be located.
 - `data/`: where data files are located. It contains a vanilla dataset.
 
-For everything to work properly, all scripts have to be submitted from the root directory of your project (`dada_guidelines/` in this case).
+For everything to work properly, all scripts have to be submitted from the root directory of your project (`dada_guidelines/` in this case). That is, the jobs have to be run (sended to the cluster) from the root directory, not from `scripts/`. 
 
 ## Preprocessing step
 
@@ -71,6 +71,12 @@ The main steps of this script are the following:
 The script also writes a file to track reads through the pipeline. If you see a big drop in reads in some step, maybe something went wrong.
 
 ## 2 - Merge runs & add taxonomy 
+
+In some cases, our dataset is splitted into multiple sequencing runs. Each of them should be processed separatedly with the `dada2` algorithm, and here we will join the outputs (`seqtab` files) into a merged version with the abundance tables. 
+See the [Big data](https://benjjneb.github.io/dada2/bigdata.html) for a detailed explanation. 
+
+Additionally, the taxonomy of the various ASVs will be established with the `assignTaxonomy` and `assignSpecies` functions. 
+See the [taxonomy tutorial](https://benjjneb.github.io/dada2/assign.html) for further details!
 
 ## 3 - Look for duplicates/Clustering
 
