@@ -1,8 +1,11 @@
 # DADA2 pipeline, adapted for our biocluster (and any cluster, in fact)
 
-This pipeline walks through version 1.8 of the R package `DADA2`. Here we provide users with some `bash` knowledge the scripts and some tips to run `DADA2` smoothly in a cluster. 
+This repository contains an organized `DADA2` pipeline to be cloned and work
+directly with the package. 
 
-Before starting, we highly recommend that you read the following tutorials:
+Users need to have some `bash` and `R` knowledge along with understanding of the `DADA2` algorithm. 
+
+Before starting, we highly recommend that you read at least one of the following tutorials:
 
 - [DADA2 pipeline official tutorial](https://benjjneb.github.io/dada2/tutorial.html) by *benjjneb*.
 - [DADA2 example workflow](https://astrobiomike.github.io/amplicon/dada2_workflow_ex) by *astrobiomike*.
@@ -18,7 +21,12 @@ We have divided the pipeline in 4 big steps (plus an initial preprocessing step)
 
 To download the pipeline to your computer/cluster, open the terminal and go to your desired directory with `cd`. Then, type the following (assuming that you have `git` installed):
 
-    git clone XXXXXX
+```sh
+    git clone https://github.com/adriaaula/dada2_guidelines.git
+
+```
+
+(You can also download the repository from the Github server)
 
 The directory `dada_guidelines/` will be copied to your computer. It contains the following files and subdirectories:
 
