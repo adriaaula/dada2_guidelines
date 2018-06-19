@@ -54,8 +54,8 @@ def main():
     for asv in sorted(fastaDict.keys(), key = sortKey):
         asvSeq = fastaDict[asv]
         if asv in clustersDict:
+			otuSeq = fastaDict[otu]
             otu = 'otu' + clustersDict[asv][3:] # change 'asv' to 'otu'
-            otuSeq = fastaDict[otu]
         else:
             otu = 'otu' + asv[3:]
             otuSeq = asvSeq
