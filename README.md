@@ -35,7 +35,7 @@ The directory `dada_guidelines/` will be copied to your computer. It contains th
 - `analysis/`: where output files will be written. Contains the `logs/` subdirectory, where log files will be located.
 - `data/`: where data files are located. It contains a vanilla dataset.
 
-For everything to work properly, all scripts have to be submitted from the root directory of your project (`dada_guidelines/` in this case). That is, the jobs have to be run (sended to the cluster) from the root directory, not from `scripts/`. 
+For everything to work properly, all scripts have to be submitted from the root directory of your project (`dada_guidelines/` in this case). That is, the jobs have to be run (sent to the cluster) from the root directory, not from `scripts/`. 
 
 ## Preprocessing step
 
@@ -44,7 +44,7 @@ As explained in *benjjneb*'s tutorial, `DADA2` needs that your sequencing data m
 - Non-biological nucleotides have been removed (e.g. primers, adapters).
 - If paired-end sequencing data, the forward and reverse fastq files contain reads in matched order.
 
-In this preprocessing step, we provide the script `XXXX.sh`, which trims primers using [`cutadapt`](http://cutadapt.readthedocs.io/en/stable/guide.html). The script is an array of jobs that outputs the trimmed R1 and R2 files plus a log file (in `analysis/logs/cutadapt/`) for each sample.  
+In this preprocessing step, we provide the script `cutadapt.sh`, which trims primers using [`cutadapt`](http://cutadapt.readthedocs.io/en/stable/guide.html). The script outputs the trimmed R1 and R2 files plus a log file (in `analysis/logs/cutadapt/`) for each sample.  
 
 ## 0 - Qscore plots
 
@@ -115,8 +115,8 @@ The algorithm will take into account the errors in the modelling phase, so this 
  * For each run the trimming point is different, so if you are working on multiple runs each of them have to be processed separatedly and then joined together with `mergeSequenceTables`. 
 
  * You should have an analysis of the FASTQs. The av. length, the avg quality for each sample, and so on. Many of the problems with recovering most of the reads
-stem from having a low quality sample, or the reads not being properly amplified. `seqkit` is a good tool for this kind of information. 
+stem from having a low quality sample, or the reads not being properly amplified. [`seqkit`](https://github.com/shenwei356/seqkit) is a good tool for this kind of information. 
 
-- The taxonomy assignation is realized at the Species level only if only a 100%, exact matching. This can make that some bacteria/eukarya present some differences
+- The taxonomy assignation is done at the Species level only if only a 100%, exact matching. This can make that some Bacteria/Eukarya present differences
 in the identification at that level when comparing with OTU results. See a link explaining this in more detail [here](https://benjjneb.github.io/dada2/assign.html#species-assignment).
 
