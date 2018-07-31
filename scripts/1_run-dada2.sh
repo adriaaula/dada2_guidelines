@@ -1,4 +1,11 @@
-#!/bin/bash
+#!/bin/sh
+
+#SBATCH --account=<your-account>
+#SBATCH --job-name=dada2
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=<num-threads>
+#SBATCH --output=analysis/logs/dada2_%J.out
+#SBATCH --error=analysis/logs/dada2_%J.err
 
 ### DADA2 pipeline ######
 ## ~~ Trimming, error generation and DADA2 run ~~ ##

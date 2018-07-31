@@ -1,4 +1,11 @@
-#!/bin/bash
+#!/bin/sh
+
+#SBATCH --account=<your-account>
+#SBATCH --job-name=merge
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=<num-threads>
+#SBATCH --output=analysis/logs/merge_%J.out
+#SBATCH --error=analysis/logs/merge_%J.err
 
 clear
 

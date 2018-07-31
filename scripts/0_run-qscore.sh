@@ -1,4 +1,11 @@
-#!/bin/bash
+#!/bin/sh
+
+#SBATCH --account=<your-account>
+#SBATCH --job-name=qprofile
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=<num-threads>
+#SBATCH --output=analysis/logs/qprofile_%J.out
+#SBATCH --error=analysis/logs/qprofile_%J.err
 
 # ~ here you will have to include the chunk necessary for your cluster!~
 
