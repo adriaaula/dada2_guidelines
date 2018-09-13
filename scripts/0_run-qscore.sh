@@ -38,6 +38,8 @@
 #module load gcc/4.9.0
 #module load Rstats/R-3.4.1
 
+module load R/R-3.5.0
+
 Rscript scripts/0_qscore.R \
         data \
         analysis/ \
