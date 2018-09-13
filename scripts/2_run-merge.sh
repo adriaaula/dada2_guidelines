@@ -41,7 +41,8 @@ date
 #                   Time to cut them down. Specify with a range which read you want to keep (Example: 400,450)
 
 module load gcc/4.9.0
-module load Rstats/R-3.4.1
+module load R/R-3.5.0
+
 
 Rscript scripts/2_mergeruns-taxonomy.R  \
                     analysis/1_errors-output/blanes_project/blanes_projectseqtab.rds \
