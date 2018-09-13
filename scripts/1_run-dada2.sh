@@ -40,8 +40,7 @@
 #                         read quality is really good, or a 2,4. 
 
 module load gcc/4.9.0
-module load Rstats/R-3.4.1
-
+module load R/R-3.5.0
 
 Rscript scripts/1_dada2-error-output.R \
         data \
