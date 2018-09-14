@@ -3,6 +3,7 @@
 #each ASV from the whole table 
 
 library(dada2); packageVersion("dada2")
+library(tidyverse)
 
 args <- commandArgs(trailingOnly = TRUE)
 
