@@ -27,7 +27,7 @@ id_job="blanes_project"
 input=analysis/2_merge-taxonomy/asv_Blanes_16S.fasta
 output=analysis/3_clustering
 
-mkdir output
+mkdir ${output}
 
 # This is an example, any threshold can be applied
 usearch -cluster_smallmem ${input} \
