@@ -40,5 +40,5 @@ usearch -cluster_smallmem ${input} \
 module load python/3.6.5
 
 # A small script to create the tsv!
-python3 3_asv2otu.py ${input} \
+python3 scripts/3_asv2otu.py ${input} \
                      ${output}/${id_job}_uc_clusters.uc > $output/${id_job}_correspondence.tsv 
