@@ -32,7 +32,7 @@ mkdir ${output}
 # This is an example, any threshold can be applied
 usearch -cluster_smallmem ${input} \
          -id 0.97 \
-         -centroids ${output}/otus_97.fa \
+         -centroids ${output}/${id_job}_otus_97.fa \
          -sortedby size \
          -uc ${output}/${id_job}_uc_clusters.uc
 
