@@ -48,7 +48,7 @@ module load R/R-3.5.0
 Rscript scripts/2_mergeruns-taxonomy.R  \
                     # remember, this is an example: you should change [1,3,6] at least
                     data/1_errors-output/blanes_project/blanes_projectseqtab.rds \
-                    data/ \
+                    data/dada2/ \
                     blanes_project \
                     data/assign_tax/rdp_train_set_16.fa.gz \
                     data/assign_tax/rdp_species_assignment_16.fa.gz \

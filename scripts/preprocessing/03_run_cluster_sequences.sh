@@ -25,7 +25,7 @@ module load usearch/9.2.64
 #Parameters!
 id_job="blanes_project"
 input=data/2_merge-taxonomy/asv_Blanes_16S.fasta
-output=data/3_clustering
+output=data/dada2/3_clustering
 
 mkdir ${output}
 
