@@ -23,7 +23,7 @@ We have divided the pipeline in 4 big steps (plus an initial preprocessing step)
 To download the pipeline to your computer/cluster, open the terminal and go to your desired directory with `cd`. Then, type the following (assuming that you have `git` installed):
 
 ```sh
-    git clone https://github.com/adriaaula/dada2_guidelines.git
+    git clone --depth 1 https://github.com/adriaaula/dada2_guidelines.git
 
 ```
 
@@ -123,3 +123,7 @@ stem from having a low quality sample, or the reads not being properly amplified
 - The taxonomy assignation is done at the Species level only if only a 100%, exact matching. This can make that some Bacteria/Eukarya present differences
 in the identification at that level when comparing with OTU results. See a link explaining this in more detail [here](https://benjjneb.github.io/dada2/assign.html#species-assignment).
 
+
+**Adrià & Aleix**
+*Backbone team*
+:skull:
