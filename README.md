@@ -1,7 +1,8 @@
-# DADA2 pipeline, adapted for our biocluster (and any cluster, in fact)
+# DADA2 pipeline, adapted for our marbits cluster (and any cluster, in fact)
 
-This repository contains an organized `DADA2` pipeline to be cloned and work
-directly with the package. 
+This repository contains an organized `DADA2` pipeline that you can clone and work directly on it.
+
+It provides a directories structure so you can use it as the backbone of your project. You can find more info on structuring projects [here](http://www.riffomonas.org/reproducible_research/organization/#10).
 
 Users need to have some `bash` and `R` knowledge along with understanding of the `DADA2` algorithm. 
 
@@ -32,8 +33,10 @@ The directory `dada_guidelines/` will be copied to your computer. It contains th
 
 - README.md: this readme file.
 - `scripts/`: where all scripts are located.
-- `analysis/`: where output files will be written. Contains the `logs/` subdirectory, where log files will be located.
-- `data/`: where data files are located. It contains a vanilla dataset.
+- `data/`:
+    - `logs/`: all log files will be dumped here.
+    - `raw/`: your raw data goes here. It contains a vanilla dataset, initially.
+    - `dada2/`: where output files from `DADA2` are written.
 
 For everything to work properly, all scripts have to be submitted from the root directory of your project (`dada_guidelines/` in this case). That is, the jobs have to be run (sent to the cluster) from the root directory, not from `scripts/`. 
 
@@ -56,7 +59,7 @@ The first step in `DADA2` is to check the quality of your sequencing data. To do
 ![](https://github.com/adriaaula/dada2_guidelines/blob/master/.examples_output/reverse.png)
 
 
-Inspecting the quality of your samples will help you decide where to trim them in the following step. It is advisable to always trim (10 bp if your reads are good quality), as you remove the most error-prone regions of your sequences. Given the plots above, we would trim around  **230** for the forward read and **210** for the reverse one.
+Inspecting the quality of your samples will help you to decide where to trim them in the following step. It is advisable to always trim (10 bp if your reads are good quality), as you remove the most error-prone regions of your sequences. Given the plots above, we would trim around  **230** for the forward read and **210** for the reverse one.
 
 As a rule of thumb, more trimming will lead to more ASVs and vice versa. 
 
@@ -82,7 +85,7 @@ The script also writes a file to track reads through the pipeline. If you see a 
 In some cases, our dataset is splitted into multiple sequencing runs. Each of them should be processed separatedly with the `dada2` algorithm, and here we will join the outputs (`seqtab` files) into a merged version with the abundance tables. 
 See the [Big data](https://benjjneb.github.io/dada2/bigdata.html) for a detailed explanation. 
 
-Additionally, the taxonomy of the various ASVs will be established with the `assignTaxonomy` and `assignSpecies` functions. 
+Additionally, the taxonomy of ASVs will be established with the `assignTaxonomy` and `assignSpecies` functions. 
 See the [taxonomy tutorial](https://benjjneb.github.io/dada2/assign.html) for further details!
 
 ## 3 - Look for duplicates/Clustering
