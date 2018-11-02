@@ -35,7 +35,7 @@ The directory `dada_guidelines/` will be copied to your computer. It contains th
 - `scripts/`: where all scripts are located.
 - `data/`:
     - `logs/`: all log files will be dumped here.
-    - `raw/`: your raw data goes here. It contains a vanilla dataset, initially.
+    - `raw/`: it contains a vanilla dataset, initially. It will contain your data. We recommend that instead of copying it, you use symlinks pointing to its original directory. You can easily create a symlink like this: `ln -s /my/original/data/*fastq.gz data/raw/`.
     - `dada2/`: where output files from `DADA2` are written.
 
 For everything to work properly, all scripts have to be submitted from the root directory of your project (`dada_guidelines/` in this case). That is, the jobs have to be run (sent to the cluster) from the root directory, not from `scripts/`. 
