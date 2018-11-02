@@ -42,7 +42,7 @@ module load R/R-3.5.0
 
 Rscript scripts/0_qscore.R \
         data \
-        data/ \
+        data/dada2/ \
         project_blanes 
 
 # IMPORTANT POINT !!!!

@@ -1,9 +1,12 @@
-I shouldn't exist but my creator doens't know how to create empty folders and doesn't care
+Hello there!
 
 
+Here all the output of the DADA2 pipeline will be found. 
 
-.Backbone team 
+Enjoy!
 
+
+.Backbone team
       .-.
      (o.o)
       |=|
@@ -18,4 +21,3 @@ I shouldn't exist but my creator doens't know how to create empty folders and do
      || ||
      || ||
 l42 ==' '==
-

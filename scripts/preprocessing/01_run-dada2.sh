@@ -45,7 +45,7 @@ module load R/R-3.5.0
 
 Rscript scripts/1_dada2-error-output.R \
         data \
-        data/ \
+        data/dada2/ \
         blanes_project \
         230,220 \
         2,6
@@ -54,7 +54,7 @@ Rscript scripts/1_dada2-error-output.R \
 
 #Rscript scripts/1_dada2-error-output.R \
 #        data/4300 \
-#        data/ \
+#        data/dada2/ \
 #        blanes_run4300 \
 #        210,200 \
 #        1,4
