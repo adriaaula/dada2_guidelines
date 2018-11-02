@@ -124,6 +124,5 @@ stem from having a low quality sample, or the reads not being properly amplified
 in the identification at that level when comparing with OTU results. See a link explaining this in more detail [here](https://benjjneb.github.io/dada2/assign.html#species-assignment).
 
 
-**Adrià & Aleix**
-*Backbone team*
-:skull:
+**Adrià & Aleix**  
+*Backbone team* :skull:
