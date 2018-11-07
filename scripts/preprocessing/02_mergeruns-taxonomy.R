@@ -14,10 +14,10 @@ tax_db <- args[4]
 tax_db_sp <- args[5]
 trim_length <- as.integer(strsplit(args[6], ",")[[1]]) 
 
-dir.create(file.path(output, "2_mergeruns-taxonomy"), showWarnings = FALSE)
-dir.create(file.path(output, "2_mergeruns-taxonomy", name), showWarnings = FALSE)
+dir.create(file.path(output, "02_mergeruns-taxonomy"), showWarnings = FALSE)
+dir.create(file.path(output, "02_mergeruns-taxonomy", name), showWarnings = FALSE)
 
-output <- paste0(output,"/2_mergeruns-taxonomy/",name,"/")
+output <- paste0(output,"/02_mergeruns-taxonomy/",name,"/")
 
 str_c()
 
