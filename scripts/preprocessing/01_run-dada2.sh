@@ -1,6 +1,6 @@
 #!/bin/sh
 
-#SBATCH --account=emm2
+#SBATCH --account=emm3
 #SBATCH --job-name=dada2
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=24
@@ -22,6 +22,8 @@
 #    has to be present on the left and separated by an underscore.
 #    (multiple underscores are OK as long as the name is on the left).
 #    Example: sample120412-g20-mallorca_R1.fastq.gz 
+#    Sample name will be sample120412-g20-mallorca, which is good bc it will be an unique identifier
+#    But maybe you want a cleaner one. Your decision!
 
 #[2] /output dir/ Usually it should be in data/, since afterwards you will use it 
 #                 for statistical analysis
