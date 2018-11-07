@@ -1,9 +1,9 @@
 #!/bin/sh
 
-#SBATCH --account=<your-account>
+#SBATCH --account=emm2
 #SBATCH --job-name=dada2
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=<num-threads>
+#SBATCH --cpus-per-task=24
 #SBATCH --output=data/logs/dada2_%J.out
 #SBATCH --error=data/logs/dada2_%J.err
 
@@ -40,11 +40,11 @@
 #                         relaxed, the modeled error can be incorrect. Usually, a maxEE of 1,2 if the 
 #                         read quality is really good, or a 2,4. 
 
-module load gcc/4.9.0
-module load R/R-3.5.0
+module load gcc
+module load R
 
-Rscript scripts/1_dada2-error-output.R \
-        data \
+Rscript scripts/preprocessing/01_dada2-error-output.R \
+        data/raw \
         data/dada2/ \
         blanes_project \
         230,220 \
@@ -52,8 +52,8 @@ Rscript scripts/1_dada2-error-output.R \
 
 # In case you have multiple runs, simply run again the script with the values of interest. Example:
 
-#Rscript scripts/1_dada2-error-output.R \
-#        data/4300 \
+#Rscript scripts/preprocessing/1_dada2-error-output.R \
+#        data/raw/4300 \
 #        data/dada2/ \
 #        blanes_run4300 \
 #        210,200 \
