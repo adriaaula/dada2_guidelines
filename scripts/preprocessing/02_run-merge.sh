@@ -41,8 +41,8 @@ date
 #                   Time to cut them down. Specify with a range which read you want to keep (Example: 400,450)
 
 
-module load gcc/4.9.0
-module load R/R-3.5.0
+module load gcc
+module load R
 
 
 Rscript scripts/preprocessing/2_mergeruns-taxonomy.R  \
