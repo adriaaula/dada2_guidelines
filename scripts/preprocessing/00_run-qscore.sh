@@ -15,8 +15,7 @@
 
 # The script generates a .pdf with the Qscore profiles
 # from your first 9 samples, in order to be able to define
-# the trimming length of the reads (both forward and 
-# reverse. 
+# the trimming length of the reads (both forward and reverse). 
 
 ## ARGS ##
 
