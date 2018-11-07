@@ -28,16 +28,41 @@ fnRs <- file.path(path, fnRs)
 
 ### Since a qprofile dir can be not present we check and create it
 
-dir.create(file.path(output, "0_qprofiles"), showWarnings = FALSE)
-dir.create(file.path(output, "0_qprofiles",run.name), showWarnings = FALSE)
+dir.create(file.path(output, "00_qprofiles"), showWarnings = FALSE)
+dir.create(file.path(output, "00_qprofiles",run.name), showWarnings = FALSE)
 
-out.diag <- file.path(output, "0_qprofiles", run.name)
+out.diag <- file.path(output, "00_qprofiles", run.name)
 
 ## Qscore distribution
 
-# Forward
-ggsave(plot = plotQualityProfile(fnFs[1:9]) +
-         ggtitle("Forward reads"), 
+### NOT RELEVANT. Helper functions to improve  plots
+
+lines_seq <- function(x) {
+  y <-  x%%10
+  if (y > 5) {
+    upper <- x+(10-y)
+  } else {
+    upper <- x-y
+  }
+  lower <- upper - 50
+  return(seq(upper, lower, -10))
+}
+
+improve_headers <- theme(strip.background = element_blank(),
+      strip.text.x =element_text(margin = margin(.05, 0, .1, 0, "cm")),
+      strip.text = element_text(size = 10),
+      axis.text.y = element_text(size = 10)) 
+
+### Forward
+
+qplot_f <- plotQualityProfile(fnFs[1:9])
+
+qplot_f_lines <- qplot_f + 
+                  geom_vline(xintercept = lines_seq(max(qplot_f$data$Cycle)), alpha = 0.3, size = 0.3, linetype = 'dashed') +
+                  improve_headers +
+                  ggtitle(paste0(run.name," - ","Forward reads"))
+
+ggsave(plot = qplot_f_lines,
        path= out.diag,
        device="pdf",
        filename = "forward.pdf",
@@ -45,10 +70,16 @@ ggsave(plot = plotQualityProfile(fnFs[1:9]) +
        height = 300,
        units = 'mm')
 
-# Same for reverse reads! 
+### Same for reverse reads! 
 
-ggsave(plot=plotQualityProfile(fnRs[1:9]) +
-         ggtitle("Reverse reads"),
+qplot_r <- plotQualityProfile(fnRs[1:9])
+
+qplot_r_lines <- qplot_r + 
+                  geom_vline(xintercept = lines_seq(max(qplot_r$data$Cycle)), alpha = 0.3, size = 0.3, linetype = 'dashed') +
+                  improve_headers +
+                  ggtitle(paste0(run.name," - ","Reverse reads"))
+
+ggsave(plot = qplot_r_lines,
        path= out.diag,
        device="pdf",
        filename = "reverse.pdf",
@@ -56,7 +87,7 @@ ggsave(plot=plotQualityProfile(fnRs[1:9]) +
        height = 300,
        units = 'mm')
 
-# The scripts generates an artifactural pdf in the main directory. 
+# The script generates an artifactual pdf in the main directory. 
 # We are going to remove it. It is a bad solution, but a solution after all!
 if (file.exists('Rplots.pdf')) file.remove('Rplots.pdf')
 

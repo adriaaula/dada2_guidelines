@@ -1,9 +1,8 @@
 #!/bin/sh
 
-#SBATCH --account=<your-account>
+#SBATCH --account=emm2
 #SBATCH --job-name=qprofile
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=<num-threads>
 #SBATCH --output=data/logs/qprofile_%J.out
 #SBATCH --error=data/logs/qprofile_%J.err
 
@@ -39,8 +38,8 @@
 
 module load R/R-3.5.0
 
-Rscript scripts/0_qscore.R \
-        data \
+Rscript scripts/preprocessing/00_qscore.R \
+        data/raw \
         data/dada2/ \
         project_blanes 
 
