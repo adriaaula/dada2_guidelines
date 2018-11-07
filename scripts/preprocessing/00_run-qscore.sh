@@ -1,6 +1,6 @@
 #!/bin/sh
 
-#SBATCH --account=<your-account>
+#SBATCH --account=emm3
 #SBATCH --job-name=qprofile
 #SBATCH --ntasks=1
 #SBATCH --output=data/logs/qprofile_%J.out

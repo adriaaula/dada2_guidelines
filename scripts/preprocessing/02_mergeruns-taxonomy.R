@@ -42,11 +42,19 @@ if(length(seqtables) > 1){
 
 print("Chimera removed!") 
 
+total <- sum(colSums(seqtab.raw))
 # Trim the unespecific amplifications from our dataset
 seqtab <- seqtab.raw[,nchar(colnames(seqtab.raw)) %in% seq(trim_length[1],
                                                            trim_length[2])]
 
-print(" Trimmed by length")
+final <- sum(colSums(seqtab))
+
+print(" Trimmed by length:")
+print(paste0("A total of: ", round(final / total, digits =2), " reads are kept!"))
+
+print(" Collapsing at 100% id")
+
+seqtab <- collapseNoMismatch(seqtab,  minOverlap = 50)
 
 saveRDS(seqtab, paste0(output, name, "_seqtab_final.rds"))
 
