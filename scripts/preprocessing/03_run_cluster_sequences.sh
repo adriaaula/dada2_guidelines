@@ -20,12 +20,12 @@ date
 #and a correspondence .tsv to be able to know the ASV/OTU relationships. 
 
 # Usearch module (where does your happy usearch live?)
-module load usearch/9.2.64
+module load usearch
 
 #Parameters!
 id_job="blanes_project"
-input=data/2_merge-taxonomy/asv_Blanes_16S.fasta
-output=data/dada2/3_clustering
+input=data/02_merge-taxonomy/asv_Blanes_16S.fasta
+output=data/dada2/03_clustering
 
 mkdir ${output}
 
@@ -37,8 +37,8 @@ usearch -cluster_smallmem ${input} \
          -uc ${output}/${id_job}_uc_clusters.uc
 
 
-module load python/3.6.5
+module load python/3.6.5 # script below is written for Python 3
 
 # A small script to create the tsv!
-python3 scripts/3_asv2otu.py ${input} \
+python3 scripts/preprocessing/03_asv2otu.py ${input} \
                      ${output}/${id_job}_uc_clusters.uc > $output/${id_job}_correspondence.tsv 
