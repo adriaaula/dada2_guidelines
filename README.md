@@ -109,7 +109,7 @@ The algorithm will take into account the errors in the modelling phase, so this 
 
  * Does the pair of reads overlapp? By how many bases? It should be >= 20 nt. 
 
-> If you follow the tutorial, at the end of the procedure a **track analysis** is generated specifing how many reads are lost along the whole procedure. It is the best way to know where it failed. 
+> If you follow the tutorial, at the end of the procedure a **track analysis** is generated specifying how many reads are lost along the whole procedure. It is the best way to know where it failed. 
 
 - In the trimming procedure, the `truncLen` cuts all the reads to an specific length and *removes* all reads being smaller.  It is important then to know the average read length, since if you go too low with the trimming you will lose too much reads. 
 
