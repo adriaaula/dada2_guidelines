@@ -44,10 +44,11 @@ head(out)
 ## ------------------------------------------------------------------------
 #Check and create a dir for output results
 
-dir.create(file.path(output, "1_errors-output"), showWarnings = FALSE)
-dir.create(file.path(output, "1_errors-output", name.run), showWarnings = FALSE)
+dir.create(file.path(output, "01_errors-output"), showWarnings = FALSE)
+dir.create(file.path(output, "01_errors-output", name.run), showWarnings = FALSE)
 
-output <- str_c(output,"/1_errors-output/",name.run,"/")
+output <- str_c(output,"/01_errors-output/",name.run,"/")
+
 
 ## ------------------------------------------------------------------------
 errF <- learnErrors(filtFs, multithread=TRUE)
