@@ -1,4 +1,4 @@
-# DADA2 pipeline, adapted for SLURM cluster (specifically, ours, MARBITS)
+# DADA2 pipeline, adapted for SLURM cluster (specifically ours, MARBITS)
 
 This repository contains an organized `DADA2` pipeline that you can clone and work directly on it.
 
@@ -11,7 +11,7 @@ Before starting, we highly recommend that you read at least one of the following
 - [DADA2 pipeline official tutorial](https://benjjneb.github.io/dada2/tutorial.html) by *benjjneb*.
 - [DADA2 example workflow](https://astrobiomike.github.io/amplicon/dada2_workflow_ex) by *astrobiomike*.
 
-The pipeline is divided in 4 big steps (plus an initial preprocessing step):
+The pipeline is divided into 4 big steps (plus an initial preprocessing step):
 
 1. Qscore profile plots.
 1. `DADA2`.
@@ -29,7 +29,7 @@ To download the pipeline to your computer/cluster, open the terminal and go to y
 
 (You can also download the repository from the [Github server](https://github.com/adriaaula/dada2_guidelines)).
 
-The directory `dada_guidelines/` will be copied to your computer. It contains the following files and subdirectories:
+The directory `dada2_guidelines/` will be copied to your computer. It contains the following files and subdirectories:
 
 - README.md: this readme file.
 - `scripts/`: where all scripts are located.
@@ -40,7 +40,7 @@ The directory `dada_guidelines/` will be copied to your computer. It contains th
 
 For everything to work properly, all scripts have to be submitted from the root directory of your project (`dada_guidelines/` in this case).
 That is, the jobs have to be run (sent to the cluster) from the root directory, not from `scripts/preprocessing`. 
-For each step, a bash script named `XX_run` is in the `scripts/preprocessing`. This is the script with the SLURM header that has to be runned. 
+For each step, a bash script named `XX_run` is in the `scripts/preprocessing`. This is the script with the SLURM header that has to be run. 
 
 ## Previous step
 
