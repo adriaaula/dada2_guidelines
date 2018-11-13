@@ -17,7 +17,7 @@ LOG_DIR=data/logs/cutadapt
 
 # load Python for cutadapt
 
-module load python/2.7.13
+module load cutadapt
 
 # cutadapt
 
@@ -40,3 +40,12 @@ for SAMPLE in $(ls ${DATA_DIR}/*fastq* | awk -F '-' '{print $2}' | sort -u); do
     ${DATA_DIR}/*${SAMPLE}*_R2.fastq* \
     > ${LOG_DIR}/${SAMPLE}.log
 done
+
+## Stats
+
+module load seqkit 
+### Additionally, we can extract the stats of the files
+# If you don't need to cut the adapter, you can simple copy this last command. 
+
+seqkit stats --all ${DATA_DIR}/*fastq* > ${DATA_DIR}/seqkit_stats_untrimmed.tsv
+seqkit stats --all ${DATA_DIR}/trimmed/*fastq* > ${DATA_DIR}/seqkit_stats_trimmed.tsv

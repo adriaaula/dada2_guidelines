@@ -74,6 +74,15 @@ It is advisable to trim the most error-prone regions of your sequences (around 2
 as valuable information for prediciting if a sequence is an error or a true biological variant. 
 Given the plots above, we should select the trimming length  (around  **240** for the forward read and **160** for the reverse one in this case). 
 
+To open pdfs both for the qscore plotting and the model from the next step, you will need to copy it to your local computer. The easiest way is to use `scp`. An example:
+
+```
+
+#Once you are in your local terminal
+scp aauladell@marbits.csic.cmima.es:~/projects/dada2_guidelines/data/dada2/00_qprofiles/* ~/Downloads/.
+
+```
+
 ## 1 - DADA2
 
 Having decided where to trim (you'll most probably get it wrong the first time, this will be obvious by the amount of reads lost), we are able to jump to the next step, which is `DADA2` itself.

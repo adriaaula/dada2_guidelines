@@ -44,10 +44,10 @@ date
 module load gcc
 module load R
 
+# remember, this is an example: you should change [1,3,6] at least
 
 Rscript scripts/preprocessing/2_mergeruns-taxonomy.R  \
-                    # remember, this is an example: you should change [1,3,6] at least
-                    data/01_errors-output/blanes_project/blanes_projectseqtab.rds \
+                    data/dada2/01_errors-output/blanes_project/blanes_projectseqtab.rds \
                     data/dada2/ \
                     blanes_project \
                     data/assign_tax/rdp_train_set_16.fa.gz \
@@ -57,5 +57,3 @@ Rscript scripts/preprocessing/2_mergeruns-taxonomy.R  \
 # If you have multple seqtabs, it should be written like this:
 
 #data/1_errors-output/blanes_project/blanes4020,data/1_errors-output/blanes_project/blanes4300 ...
-
-# a Pain in the ass, we know. Sorry for that! 
