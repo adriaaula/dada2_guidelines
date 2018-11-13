@@ -42,6 +42,11 @@
 #                         relaxed, the modeled error can be incorrect. Usually, a maxEE of 1,2 if the 
 #                         read quality is really good, or a 2,4. 
 
+#[6] /minimum overlap reads/ The minimum expected overlap of reads. The default is 15, but in case you fail to merge
+#                            most of the reads, an option is to lower the value to see the incremental changes. Beware not to
+#                            go below 8.
+
+
 module load gcc
 module load R
 
@@ -50,7 +55,8 @@ Rscript scripts/preprocessing/01_dada2-error-output.R \
         data/dada2/ \
         blanes_project \
         230,220 \
-        2,6
+        2,6 \
+        15
 
 # In case you have multiple runs, simply run again the script with the values of interest. Example:
 
@@ -59,7 +65,8 @@ Rscript scripts/preprocessing/01_dada2-error-output.R \
 #        data/dada2/ \
 #        blanes_run4300 \
 #        210,200 \
-#        1,4
+#        1,4 \
+#        15
 
 # In the 3_merge you can aggregate them!
 

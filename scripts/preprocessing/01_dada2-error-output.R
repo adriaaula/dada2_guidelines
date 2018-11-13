@@ -12,7 +12,7 @@ name.run <- args[3] #Run name. A directory for the output results will be create
 trunclen <- as.integer(strsplit(args[4], ",")[[1]])
 maxee <- as.integer(strsplit(args[5], ",")[[1]])
 
-minover <- 15 ##This is the default value, not a good option go below 10. 
+minover <- as.integer(args[6]) ##Default value is 15, not a good option go below 10. 
 
 ## ------------------------------------------------------------------------
 head(list.files(path))
