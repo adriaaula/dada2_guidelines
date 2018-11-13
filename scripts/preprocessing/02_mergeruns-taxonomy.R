@@ -19,7 +19,6 @@ dir.create(file.path(output, "02_mergeruns-taxonomy", name), showWarnings = FALS
 
 output <- paste0(output,"/02_mergeruns-taxonomy/",name,"/")
 
-str_c()
 
 if(length(seqtables) > 1){
 
@@ -43,18 +42,28 @@ if(length(seqtables) > 1){
 print("Chimera removed!") 
 
 total <- sum(colSums(seqtab.raw))
+
+track.final <- data.frame(chimera.removed = rowSums(seqtab))
+
 # Trim the unespecific amplifications from our dataset
 seqtab <- seqtab.raw[,nchar(colnames(seqtab.raw)) %in% seq(trim_length[1],
                                                            trim_length[2])]
 
+track.final <- track.final %>% 
+                    mutate( too_long_variants = rowSums(seqtab))
+
 final <- sum(colSums(seqtab))
 
-print(" Trimmed by length:")
-print(paste0("A total of: ", round(final / total, digits =2), " reads are kept!"))
+print(" Trimmed by length (cutting the band):\n")
+print(paste0("A total of: ", round((final * 100) / total, digits =2), " reads are kept!"))
 
 print(" Collapsing at 100% id")
 
 seqtab <- collapseNoMismatch(seqtab,  minOverlap = 50)
+
+track.final <- track.final %>% 
+                    mutate( collapsed_100 = rowSums(seqtab))
+
 
 saveRDS(seqtab, paste0(output, name, "_seqtab_final.rds"))
 
@@ -84,4 +93,5 @@ print("Taxonomy assigned, to Species level!")
 # Write to disk
 saveRDS(tax.sp, paste0(output, name, "_tax_assignation.rds")) 
 
+write_tsv(track.final, paste0(output, name, "_track_analysis_final.tsv"))
 

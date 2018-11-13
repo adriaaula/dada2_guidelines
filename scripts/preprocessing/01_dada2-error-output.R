@@ -102,12 +102,12 @@ head(track)
 
 track <- track %>% 
          data.frame() %>% 
-        rownames_to_column( var = 'sample') %>%
-        mutate(diff1 = filtered/input,
-               diff2 = denoised/filtered,
-               diff3 = merged/denoised,
-               diff4 = tabled/merged,
-               diff.total = tabled/input)
+         rownames_to_column( var = 'sample') %>%
+         mutate(diff1 = filtered/input,
+                diff2 = denoised/filtered,
+                diff3 = merged/denoised,
+                diff4 = tabled/merged,
+                diff.total = tabled/input)
 
 print("The median of reads kept is the following:")
 
