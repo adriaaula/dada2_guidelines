@@ -1,4 +1,4 @@
-# DADA2 pipeline, adapted for SLURM cluster (specifically ours, MARBITS)
+j DADA2 pipeline, adapted for SLURM cluster (specifically ours, MARBITS)
 
 This repository contains an organized `DADA2` pipeline that you can clone and work directly on it.
 
@@ -13,10 +13,11 @@ Before starting, we highly recommend that you read at least one of the following
 
 The pipeline is divided into 4 big steps (plus an initial preprocessing step):
 
+1. Statistics of reads, and cut adaptor. 
 1. Qscore profile plots.
-1. `DADA2`.
-1. Merge runs and add taxonomy.
-1. Check if output seqs contain duplicated reads (100% clustering), or do a lower identity clustering.
+1. Trimming reads and `DADA2` algorithm.
+1. Remove chimeras, merge runs and add taxonomy.
+1. Check if output seqs contain duplicated reads (100% clustering). 
     1. Extra: cluster, if necessary
 
 ## Initial setup
@@ -40,42 +41,50 @@ The directory `dada2_guidelines/` will be copied to your computer. It contains t
 
 For everything to work properly, all scripts have to be submitted from the root directory of your project (`dada_guidelines/` in this case).
 That is, the jobs have to be run (sent to the cluster) from the root directory, not from `scripts/preprocessing`. 
-For each step, a bash script named `XX_run` is in the `scripts/preprocessing`. This is the script with the SLURM header that has to be run. 
+For each step, a bash script named `XX_run` is in the `scripts/preprocessing`. If you try to send them from `scripts` the program will be unable to find the 
+desired files. 
+This is the script with the SLURM header that has to be run. If you don't know anything about SLURM, our favorite bioinfo admin (@Pablo Sanchez) has a really nice tutorial
+in the [marbits wiki](https://marbits.icm.csic.es/documentation/).  
 
-## Previous step
+You also can send this repository locally, but you will need to install all the programs used (`cutadapt`, `seqkit`, `R`, `dada2 package`, `usearch` and probably others :) ). 
+
+## Previous steps
 
 As explained in *benjjneb*'s tutorial, `DADA2` needs that your sequencing data meets the following criteria: 
 - Samples have been demultiplexed (one fastq file per sample).
 - Non-biological nucleotides have been removed (e.g. primers, adapters).
 - If paired-end sequencing data, the forward and reverse fastq files contain reads in matched order.
 
-In this preprocessing step, we provide the script `cutadapt.sh`, which trims primers using [`cutadapt`](http://cutadapt.readthedocs.io/en/stable/guide.html).
+In this preprocessing step, we provide the script `helper00_cutadapt.sh`, which trims primers using [`cutadapt`](http://cutadapt.readthedocs.io/en/stable/guide.html).
 The script outputs the trimmed R1 and R2 files plus a log file (in `analysis/logs/cutadapt/`) for each sample.  
+
+You will need the primers used in your study! 
 
 ## 0 - Qscore plots
 
 The first step in `DADA2` is to check the quality of your sequencing data. To do so, we provide the script `0_run-qscore.sh`, which calls the R script `0_qscore.R`. Basically, it creates 2 pdf files (forward and reverse) with the q score profile of your first 9 samples (or all your samples if your dataset is smaller). The files generated look like this:
 
-
 ![](https://benjjneb.github.io/dada2/tutorial_files/figure-html/see-quality-F-1.png)
+ 
 ![](https://benjjneb.github.io/dada2/tutorial_files/figure-html/see-quality-R-1.png)
 
 
 Inspecting the quality of your samples will help you to decide where to trim them in the following step.
-It is advisable to always trim (10 bp if your reads are good quality), as you remove the most error-prone regions of your sequences.
+It is advisable to trim the most error-prone regions of your sequences (around 20 Qscore at least). But take into account that some error can be left, since the program is able to use it 
+as valuable information for prediciting if a sequence is an error or a true biological variant. 
 Given the plots above, we should select the trimming length  (around  **240** for the forward read and **160** for the reverse one in this case). 
 
-## 1 - dada2
+## 1 - DADA2
 
-Having decided where to trim (don't worry, you'll most probably get it wrong the first time), we are able to jump to the next step, which is `DADA2` itself.
-Here, the script `1_run-dada2.sh` is provided, which calls the script `1_dada2-error-output.R`.
+Having decided where to trim (you'll most probably get it wrong the first time, this will be obvious by the amount of reads lost), we are able to jump to the next step, which is `DADA2` itself.
+Here, the script `01_run-dada2.sh` is provided, which calls the script `01_dada2-error-output.R`.
 A value of max expected error (`maxEE`) for forward and reverse reads has to be provided along the trimming regions (`truncLen`).
 It is important to note that all reads not reaching the specified lengths will be discarded (so, if you are losing a lot of sequences, maybe you set too high the trimming value).
 
 The main steps of this script are the following:
 - Filter (`maxEE`) and trim (`truncLen`). Creates the `data/filtered` directory where it dumps the processed files.
 - Learn errors. It creates a forward and reverse pdf files with the plotted error model of your samples. It is vital to check the results, since a bad error model will bring problems afterwards!
-An good error model example:
+A good error model example:
 
 ![](https://benjjneb.github.io/dada2/tutorial_files/figure-html/plot-errors-1.png) 
 
@@ -89,17 +98,24 @@ The script also writes a file to track reads through the pipeline. If you see a 
 ## 2 - Merge runs & add taxonomy 
 
 In some cases, our dataset is splitted into multiple sequencing runs.
-Each of them should be processed separatedly with the `dada2` algorithm, and here we will join the outputs (`seqtab` files) into a merged version with the abundance tables. 
+Each of them should be processed separatedly with the `dada2` algorithm, and here we will join the outputs (`seqtab` files) into a merged version with the abundance tablej. 
 See the [Big data](https://benjjneb.github.io/dada2/bigdata.html) for a detailed explanation. 
 
 Additionally, the taxonomy of ASVs will be established with the `assignTaxonomy` and `assignSpecies` functions. 
 See the [taxonomy tutorial](https://benjjneb.github.io/dada2/assign.html) for further details!
 
+We will update the taxonomic classifier to DECHIPER during the following months, since it seems to retrieve 
+better results (see [paper](https://microbiomejournal.biomedcentral.com/articles/10.1186/s40168-018-0521-5) for comparison. 
+
 ## 3 - Look for duplicates/Clustering
 
-We detected that, in some cases, merging tables from different runs gives reads that are identical but differ in length by a few base pairs. We provide here the script `3_run_cluster_sequences.sh`, which does a 100% identity clustering of the fasta file from the previous step. Additionaly, it creates a table with ASVs to OTUs correspondence.
+We detected that, in some cases, merging tables from different runs gives reads that are identical but differ in length by a few base pairs.
+This has been included in the `collapseNoMismatch` function inside DADA2. 
 
-This script can also be used to do clustering with lower identities (97%, for example). All you have to do is to change this value in the `USEARCH` command inside the script. 
+We provide here the script `3_run_cluster_sequences.sh`, which does a X% identity clustering of the fasta file from the previous step.
+Additionaly, it creates a table with ASVs to OTUs correspondence.
+
+This script can also be used to do clustering with lower identities (99%, for example). All you have to do is to change this value in the `USEARCH` command inside the script. 
 
 # Some general rules 
 
@@ -107,7 +123,7 @@ Some tips about the parameter selection!
 
 - Cut your primers. `cutadapt` does the job really easy! 
 
-- If around 25-30 % of the reads are lost in the process of ASV generation, possibly some of the parameters have to be changed. 
+- If around 35-40 % of the reads are lost in the process of ASV generation, possibly some of the parameters have to be changed. 
 
 	* Are you sure that the primers from the FASTQ are removed?
 
