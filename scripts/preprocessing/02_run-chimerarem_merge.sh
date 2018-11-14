@@ -3,7 +3,7 @@
 #SBATCH --account=<your-account>
 #SBATCH --job-name=merge
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=<num-threads>
+#SBATCH --cpus-per-task=48
 #SBATCH --output=data/logs/merge_%J.out
 #SBATCH --error=data/logs/merge_%J.err
 

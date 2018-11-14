@@ -1,9 +1,9 @@
 #!/bin/sh
 
-#SBATCH --account=emm3
+#SBATCH --account=<your-account>
 #SBATCH --job-name=dada2
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=24
+#SBATCH --cpus-per-task=48
 #SBATCH --output=data/logs/dada2_%J.out
 #SBATCH --error=data/logs/dada2_%J.err
 

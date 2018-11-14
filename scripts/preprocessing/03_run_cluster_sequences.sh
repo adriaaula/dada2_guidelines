@@ -3,7 +3,7 @@
 #SBATCH --account=<your-account>
 #SBATCH --job-name=cluster
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=<num-threads>
+#SBATCH --cpus-per-task=1
 #SBATCH --output=data/logs/cluster_%J.out
 #SBATCH --error=data/logs/cluster_%J.err
  
