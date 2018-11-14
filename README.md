@@ -1,4 +1,4 @@
-j DADA2 pipeline, adapted for SLURM cluster (specifically ours, MARBITS)
+#DADA2 pipeline, adapted for SLURM cluster (specifically ours, MARBITS)
 
 This repository contains an organized `DADA2` pipeline that you can clone and work directly on it.
 
