@@ -57,9 +57,9 @@ errR <- learnErrors(filtRs, multithread=TRUE)
 
 ## ------------------------------------------------------------------------
 err.plotf <- plotErrors(errF, nominalQ=TRUE)
-ggsave(str_c(output,"errors_",name.run,"_fwd.pdf"),plot=err.plotf)
+ggsave(str_c(output,"errors_",name.run,"_fwd.pdf"),plot=err.plotf, width = 9, height = 8)
 err.plotr <- plotErrors(errR, nominalQ=TRUE)
-ggsave(str_c(output,"errors_",name.run,"_rev.pdf"),plot=err.plotr)
+ggsave(str_c(output,"errors_",name.run,"_rev.pdf"),plot=err.plotr, width = 9, height = 8)
 
 ## ------------------------------------------------------------------------
 derepFs <- derepFastq(filtFs, verbose=TRUE)
@@ -103,11 +103,11 @@ head(track)
 track <- track %>% 
          data.frame() %>% 
          rownames_to_column( var = 'sample') %>%
-         mutate(diff1 = filtered/input,
-                diff2 = denoised/filtered,
-                diff3 = merged/denoised,
-                diff4 = tabled/merged,
-                diff.total = tabled/input)
+         mutate(diff1 = filtered/input, %>% round(2),
+                diff2 = denoised/filtered,%>% round(2),
+                diff3 = merged/denoised,%>% round(2),
+                diff4 = tabled/merged,%>% round(2),
+                diff.total = tabled/input %>% round(2))
 
 print("The median of reads kept is the following:")
 

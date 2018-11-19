@@ -38,8 +38,8 @@ for SAMPLE in $(ls ${DATA_DIR}/*fastq* | awk -F"/" '{print $NF}' |  awk -F '_' '
     --minimum-length=${MIN_LENGTH} \
     -g ${PRIMER_F} \
     -G ${PRIMER_R} \
-    -o ${OUT_DIR}/${SAMPLE}_trimmed_R1.fastq \
-    -p ${OUT_DIR}/${SAMPLE}_trimmed_R2.fastq \
+    -o ${OUT_DIR}/${SAMPLE}_trimmed_R1.fastq.gz \
+    -p ${OUT_DIR}/${SAMPLE}_trimmed_R2.fastq.gz \
     -O ${MIN_R} \
     ${DATA_DIR}/*${SAMPLE}*_R1.fastq* \
     ${DATA_DIR}/*${SAMPLE}*_R2.fastq* \

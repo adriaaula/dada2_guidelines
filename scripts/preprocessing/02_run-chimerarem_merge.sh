@@ -1,11 +1,11 @@
 #!/bin/sh
 
 #SBATCH --account=<your-account>
-#SBATCH --job-name=merge
+#SBATCH --job-name=chimera
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=48
-#SBATCH --output=data/logs/merge_%J.out
-#SBATCH --error=data/logs/merge_%J.err
+#SBATCH --output=data/logs/chimera_%J.out
+#SBATCH --error=data/logs/chimera_%J.err
 
 clear
 
@@ -46,7 +46,7 @@ module load R
 
 # remember, this is an example: you should change [1,3,6] at least
 
-Rscript scripts/preprocessing/2_mergeruns-taxonomy.R  \
+Rscript scripts/preprocessing/02_chimerarem_merge_tax.R \
                     data/dada2/01_errors-output/blanes_project/blanes_projectseqtab.rds \
                     data/dada2/ \
                     blanes_project \

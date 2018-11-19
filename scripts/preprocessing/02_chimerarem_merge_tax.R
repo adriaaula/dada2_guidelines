@@ -28,12 +28,14 @@ if(length(seqtables) > 1){
         list.df[i] <- readRDS(seqtables[i])   
     }
     st.all <- mergeSequenceTables(list.df)
+    track.final <- data.frame(chimera.removed = rowSums(st.all))
     seqtab.raw <- removeBimeraDenovo(st.all, method="consensus",
                                      multithread=TRUE)
 
 }else{
 
     st.all <- readRDS(seqtables[1])
+    track.final <- data.frame(chimera.removed = rowSums(st.all))
     seqtab.raw <- removeBimeraDenovo(st.all, method="consensus",
                                      multithread=TRUE)
 
@@ -43,7 +45,7 @@ print("Chimera removed!")
 
 total <- sum(colSums(seqtab.raw))
 
-track.final <- data.frame(chimera.removed = rowSums(seqtab))
+track.final$chimera.removed  <- rowSums(seqtab)
 
 # Trim the unespecific amplifications from our dataset
 seqtab <- seqtab.raw[,nchar(colnames(seqtab.raw)) %in% seq(trim_length[1],
@@ -92,6 +94,10 @@ print("Taxonomy assigned, to Species level!")
 
 # Write to disk
 saveRDS(tax.sp, paste0(output, name, "_tax_assignation.rds")) 
+
+
+track.final <- track.final %>% 
+               mutate( diff.total = collapsed_100 / raw  %>% round(2))
 
 write_tsv(track.final, paste0(output, name, "_track_analysis_final.tsv"))
 
