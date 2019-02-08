@@ -53,4 +53,4 @@ module load seqkit
 # If you don't need to cut the adapter, you can simple copy this last command. 
 
 seqkit stats --all ${DATA_DIR}/*fastq* > ${DATA_DIR}/seqkit_stats_untrimmed.tsv
-seqkit stats --all ${OUT_DIR}/trimmed/*fastq* > ${DATA_DIR}/seqkit_stats_trimmed.tsv
+seqkit stats --all ${OUT_DIR}/*fastq* > ${DATA_DIR}/seqkit_stats_trimmed.tsv
