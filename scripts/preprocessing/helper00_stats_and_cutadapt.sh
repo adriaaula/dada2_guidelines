@@ -41,8 +41,8 @@ for SAMPLE in $(ls ${DATA_DIR}/*fastq* | awk -F"/" '{print $NF}' |  sed 's/_R[1,
     -o ${OUT_DIR}/${SAMPLE}_trimmed_R1.fastq.gz \
     -p ${OUT_DIR}/${SAMPLE}_trimmed_R2.fastq.gz \
     -O ${MIN_R} \
-    ${DATA_DIR}/*${SAMPLE}*_R1.fastq* \
-    ${DATA_DIR}/*${SAMPLE}*_R2.fastq* \
+    ${DATA_DIR}/*${SAMPLE}*_R1*.fastq* \
+    ${DATA_DIR}/*${SAMPLE}*_R2*.fastq* \
     > ${LOG_DIR}/${SAMPLE}.log
 done
 
