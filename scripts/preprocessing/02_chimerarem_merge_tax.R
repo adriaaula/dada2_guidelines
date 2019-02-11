@@ -19,29 +19,19 @@ dir.create(file.path(output, "02_mergeruns-taxonomy", name), showWarnings = FALS
 
 output <- paste0(output,"/02_mergeruns-taxonomy/",name,"/")
 
+# Get all the rds files
+list.df <- map(seqtables, readRDS)
 
-if(length(seqtables) > 1){
+st.all <- mergeSequenceTables(tables = list.df)
 
-    list.df <- NULL
-    
-    for(i in length(seqtables) -1){
-        list.df[i] <- readRDS(seqtables[i])   
-    }
-    st.all <- mergeSequenceTables(list.df)
-    track.final <- data.frame(chimera.removed = rowSums(st.all))
-    seqtab.raw <- removeBimeraDenovo(st.all, method="consensus",
+track.final <- data.frame(sample = rownames(st.all),
+                          chimera.removed = rowSums(st.all))
+
+seqtab.raw <- removeBimeraDenovo(st.all, method="consensus",
                                      multithread=TRUE)
 
-}else{
+print("Chimera removed!\n") 
 
-    st.all <- readRDS(seqtables[1])
-    track.final <- data.frame(chimera.removed = rowSums(st.all))
-    seqtab.raw <- removeBimeraDenovo(st.all, method="consensus",
-                                     multithread=TRUE)
-
-}
-
-print("Chimera removed!") 
 
 total <- sum(colSums(seqtab.raw))
 
@@ -97,7 +87,7 @@ saveRDS(tax.sp, paste0(output, name, "_tax_assignation.rds"))
 
 
 track.final <- track.final %>% 
-               mutate( diff.total = collapsed_100 / raw  %>% round(2))
+               mutate( diff.total = collapsed_100 / raw  %>% round(digits =2))
 
 write_tsv(track.final, paste0(output, name, "_track_analysis_final.tsv"))
 
