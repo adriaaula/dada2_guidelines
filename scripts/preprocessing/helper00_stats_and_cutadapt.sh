@@ -31,7 +31,7 @@ module load cutadapt
 ### and sample name is in the second field (stated by '{print $2}').
 ### Before runnning the script adapt these 2 options to your samples names.
 
-for SAMPLE in $(ls ${DATA_DIR}/*fastq* | awk -F"/" '{print $NF}' |  awk -F '_' '{print $1}' | sort -u); do
+for SAMPLE in $(ls ${DATA_DIR}/*fastq* | awk -F"/" '{print $NF}' |  sed 's/_R[1,2].*$//g' | sort -u); do
   cutadapt \
     --discard-untrimmed \
     --pair-filter=any \
@@ -53,4 +53,4 @@ module load seqkit
 # If you don't need to cut the adapter, you can simple copy this last command. 
 
 seqkit stats --all ${DATA_DIR}/*fastq* > ${DATA_DIR}/seqkit_stats_untrimmed.tsv
-seqkit stats --all ${DATA_DIR}/trimmed/*fastq* > ${DATA_DIR}/seqkit_stats_trimmed.tsv
+seqkit stats --all ${OUT_DIR}/*fastq* > ${DATA_DIR}/seqkit_stats_trimmed.tsv
