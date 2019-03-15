@@ -35,7 +35,7 @@ print("Chimera removed!\n")
 
 total <- sum(colSums(seqtab.raw))
 
-track.final$chimera.removed  <- rowSums(seqtab)
+track.final$chimera.removed  <- rowSums(seqtab.raw)
 
 # Trim the unespecific amplifications from our dataset
 seqtab <- seqtab.raw[,nchar(colnames(seqtab.raw)) %in% seq(trim_length[1],
