@@ -71,7 +71,7 @@ The first step in `DADA2` is to check the quality of your sequencing data. To do
 
 Inspecting the quality of your samples will help you to decide where to trim them in the following step.
 It is advisable to trim the most error-prone regions of your sequences (around 20 Qscore at least). But take into account that some error can be left, since the program is able to use it 
-as valuable information for prediciting if a sequence is an error or a true biological variant. The **trim length is depedant on how much your reads are complementary**. If your sequence is small, 
+as valuable information for prediciting if a sequence is an error or a true biological variant. The **trim length is based on how much your R1 and R2 are redundant**. If your sequence is small, 
 you can be quite conservative and cut widely. If your merging region is small, beware of cutting too much. 
 Given the plots above, we should select the trimming length  (around  **240** for the forward read and **160** for the reverse one in this case). 
 
