@@ -71,7 +71,8 @@ The first step in `DADA2` is to check the quality of your sequencing data. To do
 
 Inspecting the quality of your samples will help you to decide where to trim them in the following step.
 It is advisable to trim the most error-prone regions of your sequences (around 20 Qscore at least). But take into account that some error can be left, since the program is able to use it 
-as valuable information for prediciting if a sequence is an error or a true biological variant. 
+as valuable information for prediciting if a sequence is an error or a true biological variant. The **trim length is depedant on how much your reads are complementary**. If your sequence is small, 
+you can be quite conservative and cut widely. If your merging region is small, beware of cutting too much. 
 Given the plots above, we should select the trimming length  (around  **240** for the forward read and **160** for the reverse one in this case). 
 
 To open pdfs both for the qscore plotting and the model from the next step, you will need to copy it to your local computer. The easiest way is to use `scp`. An example:
@@ -104,6 +105,9 @@ A good error model example:
 
 The script also writes a file to track reads through the pipeline. If you see a big drop in reads in some step, maybe something went wrong.
 
+In the same script, you can run multiple runs separately, which will be joined in the following step. Remeber that it is necessary to process each run individually 
+since error distribution is different for each sequencing run. 
+
 ## 2 - Merge runs & add taxonomy 
 
 In some cases, our dataset is splitted into multiple sequencing runs.
@@ -115,6 +119,7 @@ See the [taxonomy tutorial](https://benjjneb.github.io/dada2/assign.html) for fu
 
 We will update the taxonomic classifier to DECHIPER during the following months, since it seems to retrieve 
 better results (see [paper](https://microbiomejournal.biomedcentral.com/articles/10.1186/s40168-018-0521-5) for comparison. 
+If you want to collaborate, try to push a version of this with your comments ;)
 
 ## 3 - Look for duplicates/Clustering
 
@@ -132,7 +137,7 @@ Some tips about the parameter selection!
 
 - Cut your primers. `cutadapt` does the job really easy! 
 
-- If around 35-40 % of the reads are lost in the process of ASV generation, possibly some of the parameters have to be changed. 
+- If around 45-50 % of the reads are lost in the process of ASV generation, possibly some of the parameters have to be changed. 
 
 	* Are you sure that the primers from the FASTQ are removed?
 
