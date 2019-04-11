@@ -37,9 +37,16 @@ total <- sum(colSums(seqtab.raw))
 
 track.final$chimera.removed  <- rowSums(seqtab.raw)
 
+# Distribution of variants
+print("The variants have the following length distribution:\n")
+table(nchar(getSequences(seqtab.raw)))
+
 # Trim the unespecific amplifications from our dataset
 seqtab <- seqtab.raw[,nchar(colnames(seqtab.raw)) %in% seq(trim_length[1],
                                                            trim_length[2])]
+# Afterwards: 
+print("The variants after trimming have the following length distribution:\n")
+table(nchar(getSequences(seqtab)))
 
 track.final <- track.final %>% 
                     mutate( too_long_variants = rowSums(seqtab))
