@@ -111,13 +111,13 @@ since error distribution is different for each sequencing run.
 ## 2 - Merge runs & add taxonomy 
 
 In some cases, our dataset is splitted into multiple sequencing runs.
-Each of them should be processed separatedly with the `dada2` algorithm, and here we will join the outputs (`seqtab` files) into a merged version with the abundance tablej. 
+Each of them should be processed separatedly with the `dada2` algorithm, and here we will join the outputs (`seqtab` files) into a merged version with the abundance table. 
 See the [Big data](https://benjjneb.github.io/dada2/bigdata.html) for a detailed explanation. 
 
 Additionally, the taxonomy of ASVs will be established with the `assignTaxonomy` and `assignSpecies` functions. 
 See the [taxonomy tutorial](https://benjjneb.github.io/dada2/assign.html) for further details!
 
-We will update the taxonomic classifier to DECHIPER during the following months, since it seems to retrieve 
+We will update the taxonomic classifier to DECIPHER during the following months, since it seems to retrieve 
 better results (see [paper](https://microbiomejournal.biomedcentral.com/articles/10.1186/s40168-018-0521-5) for comparison. 
 If you want to collaborate, try to push a version of this with your comments ;)
 
