@@ -50,7 +50,7 @@ done
 
 module load seqkit 
 ### Additionally, we can extract the stats of the files
-# If you don't need to cut the adapter, you can simple copy this last command. 
+# If you don't need to cut the adapter, you can simply copy this last command. 
 
 seqkit stats --all ${DATA_DIR}/*fastq* > ${DATA_DIR}/seqkit_stats_untrimmed.tsv
 seqkit stats --all ${OUT_DIR}/*fastq* > ${DATA_DIR}/seqkit_stats_trimmed.tsv

@@ -51,7 +51,7 @@ module load gcc
 module load R
 
 Rscript scripts/preprocessing/01_dada2-error-output.R \
-        data/raw \
+        data/trimmed \
         data/dada2/ \
         blanes_project \
         230,220 \
