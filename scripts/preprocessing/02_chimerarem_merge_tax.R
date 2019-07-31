@@ -54,7 +54,7 @@ track.final <- track.final %>%
 final <- sum(colSums(seqtab))
 
 print(" Trimmed by length (cutting the band):\n")
-print(paste0("A total of: ", round((final * 100) / total, digits =2), " reads are kept!"))
+print(paste0("A total of: ", round((final * 100) / total, digits =2), "% reads are kept!"))
 
 print(" Collapsing at 100% id")
 
