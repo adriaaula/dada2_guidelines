@@ -144,7 +144,7 @@ Some tips about the parameter selection!
  * What `maxee` did you specify? If this is making many reads to be lost, you can specify a bigger maxee, and even different values for the F and R reads (for example `c(2,4)`).
 The algorithm will take into account the errors in the modelling phase, so this will not make your ASVs erroneus. 
 
- * Does the pair of reads overlapp? By how many bases? It should be >= 20 nt. 
+ * Does the pair of reads overlap? By how many bases? It should be >= 20 nt. 
 
 > If you follow the tutorial, at the end of the procedure a **track analysis** is generated specifying how many reads are lost along the whole procedure. It is the best way to know where it failed. 
 
