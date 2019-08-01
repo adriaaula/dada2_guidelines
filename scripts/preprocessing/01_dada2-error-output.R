@@ -125,9 +125,9 @@ write_tsv(data.frame(track),str_c(output,name.run,"_track_analysis.tsv"))
 # We are going to remove it. It is a bad solution, but a solution after all!
 if (file.exists('Rplots.pdf')) file.remove('Rplots.pdf')
 
-cat(paste0('\n# An ASV table was created, you can find in ',str_c(output,name.run,"_seqtab.rds"),'\n'))
-cat('# Remember that this table still contains chimeras. You have now to run script 02_run-chimerarem_merge.sh to remove them and add taxonomy\n')
-cat(paste0('# In ',str_c(output,name.run,"_track_analysis.tsv")," you will find a table where you can check the loss of reads in each step. Check it out to see if everything's correct!",'\n'))
+cat(paste0('\n# An ASV table was created, you can find in "',str_c(output,name.run,"_seqtab.rds"),'"\n'))
+cat('# Remember that this table still contains chimeras. You have now to run script "02_run-chimerarem_merge.sh" to remove them and add taxonomy\n')
+cat(paste0('# In "',str_c(output,name.run,"_track_analysis.tsv"),"\" you will find a table where you can check the loss of reads in each step. Check it out to see if everything's correct!",'\n'))
 cat('\n# All done!\n\n')
 
 # END
