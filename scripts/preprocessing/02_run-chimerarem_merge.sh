@@ -7,10 +7,6 @@
 #SBATCH --output=data/logs/chimera_%J.out
 #SBATCH --error=data/logs/chimera_%J.err
 
-clear
-
-date
-
 ### DADA2 pipeline ######
 ## ~~ Trimming, error generation and DADA2 run ~~ ##
 
