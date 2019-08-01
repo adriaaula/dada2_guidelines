@@ -4,7 +4,11 @@
 
 library(stringr)
 library(tidyverse)
-library(dada2); packageVersion("dada2")
+library(dada2)
+
+cat(paste0('\n',"You are using DADA2 version ", packageVersion('dada2'),'\n\n'))
+
+cat('################################\n\n')
 
 ## Load Rscript args
 
@@ -51,13 +55,13 @@ lines_seq <- function(x) {
 improve_headers <- theme(strip.background = element_blank(),
       strip.text.x =element_text(margin = margin(.05, 0, .1, 0, "cm")),
       strip.text = element_text(size = 10),
-      axis.text.y = element_text(size = 10)) 
+      axis.text.y = element_text(size = 10))
 
 ### Forward
 
 qplot_f <- plotQualityProfile(fnFs[1:9])
 
-qplot_f_lines <- qplot_f + 
+qplot_f_lines <- qplot_f +
                   geom_vline(xintercept = lines_seq(max(qplot_f$data$Cycle)), alpha = 0.3, size = 0.3, linetype = 'dashed') +
                   improve_headers +
                   ggtitle(paste0(run.name," - ","Forward reads"))
@@ -70,11 +74,11 @@ ggsave(plot = qplot_f_lines,
        height = 300,
        units = 'mm')
 
-### Same for reverse reads! 
+### Same for reverse reads!
 
 qplot_r <- plotQualityProfile(fnRs[1:9])
 
-qplot_r_lines <- qplot_r + 
+qplot_r_lines <- qplot_r +
                   geom_vline(xintercept = lines_seq(max(qplot_r$data$Cycle)), alpha = 0.3, size = 0.3, linetype = 'dashed') +
                   improve_headers +
                   ggtitle(paste0(run.name," - ","Reverse reads"))
@@ -87,7 +91,10 @@ ggsave(plot = qplot_r_lines,
        height = 300,
        units = 'mm')
 
-# The script generates an artifactual pdf in the main directory. 
+cat(paste0('# 2 files ("forward.pdf" and "reverse.pdf") were created in ', out.diag,'. They contain the quality profile of the first 9 samples.\n'))
+cat('You have to copy them to your local computer using "ssh user@marbits:path/to/files/*pdf ." and check them to decide where to trim\n')
+
+# The script generates an artifactual pdf in the main directory.
 # We are going to remove it. It is a bad solution, but a solution after all!
 if (file.exists('Rplots.pdf')) file.remove('Rplots.pdf')
 

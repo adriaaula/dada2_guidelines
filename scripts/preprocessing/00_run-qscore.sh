@@ -14,34 +14,34 @@
 
 # The script generates a .pdf with the Qscore profiles
 # from your first 9 samples, in order to be able to define
-# the trimming length of the reads (both forward and reverse). 
+# the trimming length of the reads (both forward and reverse).
 
 ## ARGS ##
 
-#[1] /input dataset/, with the fastq.gz (the name of the samples 
+#[1] /input dataset/, with the fastq.gz (the name of the samples
 #    has to be present on the left and separated by an underscore.
 #    (multiple underscores are OK as long as the name is on the left).
-#    Examples: sample120412-g20-mallorca_R1.fastq.gz 
+#    Examples: sample120412-g20-mallorca_R1.fastq.gz
 #              bl120513_primerx_R1.fastq.gz
 
 #[2] /output dir/ A directory in which all the output will be stored.
 #                 If you have copied the github project, you should have
 #                 an data dir. in which it should be copied
 
-#[3] /name/ A common identifier to keep track of the output 
+#[3] /name/ A common identifier to keep track of the output
 #           You will thank us that :^)
 
-# If your cluster works with modules, first you 
+# If your cluster works with modules, first you
 # should activate them.
 #module load gcc/4.9.0
 #module load Rstats/R-3.4.1
 
-module load R/R-3.5.0
+module load R
 
 Rscript scripts/preprocessing/00_qscore.R \
         data/raw \
         data/dada2/ \
-        project_blanes 
+        project_blanes
 
 # IMPORTANT POINT !!!!
 # If you want to save the ouptput//errors in a logfile, simply add
