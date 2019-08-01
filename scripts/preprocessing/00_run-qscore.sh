@@ -41,7 +41,7 @@ module load R
 Rscript scripts/preprocessing/00_qscore.R \
         data/raw \
         data/dada2/ \
-        project_blanes
+        blanes_project
 
 # IMPORTANT POINT !!!!
 # If you want to save the ouptput//errors in a logfile, simply add

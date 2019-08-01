@@ -91,8 +91,10 @@ ggsave(plot = qplot_r_lines,
        height = 300,
        units = 'mm')
 
-cat(paste0('# 2 files ("forward.pdf" and "reverse.pdf") were created in ', out.diag,'. They contain the quality profile of the first 9 samples.\n'))
-cat('You have to copy them to your local computer using "ssh user@marbits:path/to/files/*pdf ." and check them to decide where to trim\n')
+cat(paste0('# Two files ("forward.pdf" and "reverse.pdf") were created in "', out.diag,'". They contain the quality profile of the first 9 samples.\n'))
+cat('# You have to copy them to your local computer using "ssh user@marbits:path/to/files/*pdf ." and check them to decide where to trim.\n')
+
+cat('\nAll done!\n\n')
 
 # The script generates an artifactual pdf in the main directory.
 # We are going to remove it. It is a bad solution, but a solution after all!
