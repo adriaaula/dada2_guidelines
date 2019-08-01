@@ -25,7 +25,7 @@ list.df <- map(seqtables, readRDS)
 st.all <- mergeSequenceTables(tables = list.df)
 
 track.final <- data.frame(sample = rownames(st.all),
-                          chimera.removed = rowSums(st.all))
+                          raw = rowSums(st.all))
 
 seqtab.raw <- removeBimeraDenovo(st.all, method="consensus",
                                      multithread=TRUE)
@@ -94,7 +94,7 @@ saveRDS(tax.sp, paste0(output, name, "_tax_assignation.rds"))
 
 
 track.final <- track.final %>% 
-               mutate( diff.total = collapsed_100 / raw  %>% round(digits =2))
+               mutate( diff.total = round(collapsed_100 / raw, digits =2))
 
 write_tsv(track.final, paste0(output, name, "_track_analysis_final.tsv"))
 
