@@ -16,7 +16,7 @@ name.run <- args[3] #Run name. A directory for the output results will be create
 trunclen <- as.integer(strsplit(args[4], ",")[[1]])
 maxee <- as.integer(strsplit(args[5], ",")[[1]])
 
-minover <- as.integer(args[6]) ##Default value is 15, not a good option go below 10. 
+minover <- as.integer(args[6]) ##Default value is 15, not a good option go below 10.
 
 ## ------------------------------------------------------------------------
 fnFs <- sort(list.files(path, pattern="R1.fastq"))
@@ -34,11 +34,11 @@ filt_path <- file.path(path, "filtered") # Filtered fast in filtered/ subdir
 filtFs <- file.path(filt_path, paste0(sample.names, "_F_filt.fastq"))
 filtRs <- file.path(filt_path, paste0(sample.names, "_R_filt.fastq"))
 
-## ------------------------------------------------------------------------ 
+## ------------------------------------------------------------------------
 
 out <- filterAndTrim(fnFs, filtFs, fnRs, filtRs, truncLen=trunclen,
               maxEE=maxee,  rm.phix=TRUE,
-              compress=TRUE, multithread=TRUE) 
+              compress=TRUE, multithread=TRUE)
 
 cat('# Filtering and trimming done with the following parameters:\n')
 cat(paste0('# Forward pair: trimming at ',trunclen[1],'bp and max expected error ',maxee[1],'\n'))
@@ -95,7 +95,7 @@ cat(paste0('# Number of detected variants (ASVs): ',dim(seqtab)[2]))
 cat("\n# The variants (ASVs) have the following length distribution:\n")
 table(nchar(getSequences(seqtab)))
 
-saveRDS(seqtab, str_c(output,name.run,"seqtab.rds"))
+saveRDS(seqtab, str_c(output,name.run,"_seqtab.rds"))
 ## ------------------------------------------------------------------------
 
 getN <- function(x) sum(getUniques(x))
@@ -106,8 +106,8 @@ track <- cbind(out, sapply(dadaFs, getN),
 colnames(track) <- c("input", "filtered", "denoised", "merged", "tabled")
 rownames(track) <- sample.names
 
-track <- track %>% 
-         data.frame() %>% 
+track <- track %>%
+         data.frame() %>%
          rownames_to_column( var = 'sample') %>%
          mutate(diff1 = round(filtered/input, 2),
                 diff2 = round(denoised/filtered, 2),
@@ -119,15 +119,15 @@ cat("\n# The median of reads kept is the following:\n\n")
 
 summary(track$diff.total)
 
-write_tsv(data.frame(track),str_c(output,name.run,"track_analysis.tsv"))
+write_tsv(data.frame(track),str_c(output,name.run,"_track_analysis.tsv"))
 
-# The scripts generates an artifactural pdf in the main directory. 
+# The scripts generates an artifactural pdf in the main directory.
 # We are going to remove it. It is a bad solution, but a solution after all!
 if (file.exists('Rplots.pdf')) file.remove('Rplots.pdf')
 
-cat(paste0('\n# An ASV table was created, you can find in ',str_c(output,name.run,"seqtab.rds"),'\n'))
+cat(paste0('\n# An ASV table was created, you can find in ',str_c(output,name.run,"_seqtab.rds"),'\n'))
 cat('# Remember that this table still contains chimeras. You have now to run script 02_run-chimerarem_merge.sh to remove them and add taxonomy\n')
-cat(paste0('# In ',str_c(output,name.run,"track_analysis.tsv")," you will find a table where you can check the loss of reads in each step. Check it out to see if everything's correct!",'\n'))
+cat(paste0('# In ',str_c(output,name.run,"_track_analysis.tsv")," you will find a table where you can check the loss of reads in each step. Check it out to see if everything's correct!",'\n'))
 cat('\n# All done!\n\n')
 
 # END
