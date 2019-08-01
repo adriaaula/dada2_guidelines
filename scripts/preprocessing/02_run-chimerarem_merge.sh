@@ -1,11 +1,11 @@
 #!/bin/sh
 
 #SBATCH --account=<your-account>
-#SBATCH --job-name=chimera
+#SBATCH --job-name=merge_nochimera
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=48
-#SBATCH --output=data/logs/chimera_%J.out
-#SBATCH --error=data/logs/chimera_%J.err
+#SBATCH --cpus-per-task=2
+#SBATCH --output=data/logs/2_merge_nochimera_%J.out
+#SBATCH --error=data/logs/2_merge_nochimera_%J.err
 
 ### DADA2 pipeline ######
 ## ~~ Trimming, error generation and DADA2 run ~~ ##

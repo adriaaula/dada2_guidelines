@@ -3,8 +3,8 @@
 #SBATCH --account=<your-account>
 #SBATCH --job-name=qprofile
 #SBATCH --ntasks=1
-#SBATCH --output=data/logs/qprofile_%J.out
-#SBATCH --error=data/logs/qprofile_%J.err
+#SBATCH --output=data/logs/0_qprofile_%J.out
+#SBATCH --error=data/logs/0_qprofile_%J.err
 
 # ~ here you will have to include the chunk necessary for your cluster!~
 
