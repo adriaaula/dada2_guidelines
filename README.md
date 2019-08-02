@@ -122,7 +122,7 @@ We will determine the taxonomy of ASVs using DECIPHER, which seems to retrieve
 better results (see [paper](https://microbiomejournal.biomedcentral.com/articles/10.1186/s40168-018-0521-5) for comparison) than the standard naive Bayesian classifier.
 
 To do so, we will use the script `03_run-add-taxonomy.sh`, you will need to download the database you want to use at the [DECIPHER webpage](http://www2.decipher.codes/Downloads.html) and save it to `data/assign_tax`. 
-In the following days/weeks, we will try to make all databases public in marbits to prevent everyone downloading s copy of the database for each project.
+In the following days/weeks, we will try to make all databases public in marbits to prevent everyone downloading their copy of the database for each project.
 
 Once you have your database ready, you have to decide at which confidence level you want to classify your ASVs. This is what people at DECIPHER say:
 
