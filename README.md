@@ -114,7 +114,8 @@ In some cases, our dataset is splitted into multiple sequencing runs.
 Each of them should be processed separatedly with the `dada2` algorithm, and here we will join the outputs (`seqtab` files) into a merged version with the abundance table, using the script `02_run_chimerarem_merge.sh`.
 See the [Big data](https://benjjneb.github.io/dada2/bigdata.html) for a detailed explanation.
 
-Once the tables are merged, chimeric ASVs will be removed and we will obtain our final ASV counts table. Now it's time to add taxonomy.
+Once the tables are merged, chimeric ASVs will be removed and we will obtain our final ASV counts table. The default method used to remove chimeras is 'consensus'. However, *if you used `pool=TRUE` in the `dada` command you should use method 'pooled'.*
+Now that you got rid of ugly chimeras, it's time to add taxonomy.
 
 ## 3- Add taxonomy
 
