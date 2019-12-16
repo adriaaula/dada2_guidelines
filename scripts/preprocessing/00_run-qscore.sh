@@ -47,5 +47,7 @@ Rscript scripts/preprocessing/00_qscore.R \
 # If you want to save the ouptput//errors in a logfile, simply add
 # > logout.txt 2> logout_err.txt to have all the info
 
-# As it is written now, is to work on local seeing the output written in the terminal.
+# As it is written now, you can also work locally. 
+# Executing this script locally will make a call to scripts/preprocessing/00_qscore.R
+# and output directly the messages in the console
 # The same applies to all the other scripts!
