@@ -35,7 +35,7 @@ module load R
 
 # remember, this is an example: you should change [1,3,4] at least
 
-Rscript scripts/preprocessing/02_chimerarem_merge_tax.R \
+Rscript scripts/preprocessing/02_chimerarem_merge.R \
                     data/dada2/01_errors-output/blanes_project/blanes_project_seqtab.rds \
                     data/dada2/ \
                     blanes_project \
