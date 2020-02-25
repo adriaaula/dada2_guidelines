@@ -137,10 +137,8 @@ Although we recommend you to use R and .rds files to analyze the obtained data, 
 We detected that, in some cases, merging tables from different runs gives reads that are identical but differ in length by a few base pairs.
 This has been included in the `collapseNoMismatch` function inside DADA2.
 
-We provide here the script `4_run_cluster_sequences.sh`, which does a X% identity clustering of the fasta file from the previous step.
+We provide here the script `04_run-ASV-clustering.sh`, which creates a clustered seqtab at the desired percentage identity.
 Additionaly, it creates a table with ASVs to OTUs correspondence.
-
-This script can also be used to do clustering with lower identities (99%, for example). All you have to do is change this value in the `USEARCH` command inside the script.
 
 # Some general rules
 
