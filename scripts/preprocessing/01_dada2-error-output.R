@@ -21,7 +21,7 @@ minover <- as.integer(args[6]) ##Default value is 15, not a good option go below
 ## ------------------------------------------------------------------------
 fnFs <- sort(list.files(path, pattern="R1.fastq"))
 fnRs <- sort(list.files(path, pattern="R2.fastq"))
-sample.names <- sapply(strsplit(fnFs, "-"), `[`, 2) #maybe if there is no similar delim the script is not working here. Beware!
+sample.names <- sapply(strsplit(fnFs, "_"), `[`, 1) #maybe if there is no similar delim the script is not working here. Beware!
 
 fnFs <- file.path(path, fnFs)
 fnRs <- file.path(path, fnRs)
