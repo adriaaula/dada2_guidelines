@@ -28,7 +28,7 @@ set.seed(42) #random  generator necessary for reproducibility
 
 seqtab.nochim <- readRDS(seqtab.nochim)
 
-if (grepl('[Dd]ecipher|DECIPHER', method){ # use decipher
+if (grepl('[Dd]ecipher|DECIPHER', method)){ # use decipher
 
 cat(paste0("You are using DECIPHER version ", packageVersion('DECIPHER'),'\n\n'))
 
