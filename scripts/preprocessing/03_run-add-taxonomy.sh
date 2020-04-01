@@ -18,29 +18,55 @@
 
 ## ARGS ##
 
-#[1] /seqtab/ seqtab with chimeras removed.
+#[1] /seqtab/ 
+#   seqtab with chimeras removed.
 
-#[2] /output dir/ Directory output, usually data (a subdirectory will be created).
+#[2] /output dir/ 
+#   Directory output, usually data (a subdirectory will be created).
 
-#[3] /name/ A common identifier to be sure that the output is the
-#            correct one. You will thank us that :^)
+#[3] /name/ 
+#   A common identifier to be sure that the output is the
+#   correct one. You will thank us that :^)
 
-#[4] /Taxonomy db/ The db has to be downloaded from http://www2.decipher.codes/Downloads.html
-#                             and saved in the biocluster.
+#[4] /Taxonomy db/ 
+#   Here you have to put your database[s] for classification.
+#   if using dada's assignTaxonomy() and assignSpecies() functions, put your 2 databases separated by a comma
+#   if using only assignTaxonomy(), put your database   
+#   if using DECIPHER, the db has to be downloaded from http://www2.decipher.codes/Downloads.html and put here
 
-#[5] /Confidence level of classification/ Numeric specifying the confidence at which to truncate
-#                                         the output taxonomic classifications. Lower values of threshold
-#                                         will classify deeper into the taxonomic tree at the expense of accuracy,
-#                                         and vice-versa for higher values of threshold.
+#[5] /Taxonomy classification methon/ 
+#   write 'decipher' if you want to use DECIPHER's IdTaxa() to classify
+#   write 'dada' if you want to use the classifier included in dada2
+
+#[6] /Confidence level of classification (DECIPHER) or minBoot (dada2)/
+#   DECIPHER (default 60):       
+#       Numeric specifying the confidence at which to truncate
+#       the output taxonomic classifications. Lower values of threshold
+#       will classify deeper into the taxonomic tree at the expense of accuracy,
+#       and vice-versa for higher values of threshold.
+#
+#   DADA2 (default 50):
+#       The minimum bootstrap confidence for assigning a taxonomic level.
 
 module load gcc
 module load R
 
-# remember, this is an example
+# Example with DECIPHER
 
 Rscript scripts/preprocessing/03_add-taxonomy.R \
-                    data/dada2/02_nochimera_mergeruns/blanes_project/blanes_project_seqtab_final.rds \
-                    data/dada2/ \
-                    blanes_project \
-                    data/assign_tax/SILVA_SSU_r132_March2018.RData \
-                    60
+    data/dada2/02_nochimera_mergeruns/blanes_project/blanes_project_seqtab_final.rds \
+    data/dada2/ \
+    blanes_project \
+    data/assign_tax/SILVA_SSU_r132_March2018.RData \
+    decipher \
+    60
+
+# Example with dada2 classifier (commented to avoid running it)
+
+# Rscript scripts/preprocessing/03_add-taxonomy.R \
+#     data/dada2/02_nochimera_mergeruns/blanes_project/blanes_project_seqtab_final.rds \
+#     data/dada2/ \
+#     blanes_project \
+#     data/assign_tax/your_database.fasta \
+#     dada \
+#     50
