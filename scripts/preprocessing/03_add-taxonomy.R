@@ -15,8 +15,8 @@ seqtab.nochim <- args[1]
 output <- args[2]
 name <- args[3]
 tax_db <- strsplit(args[4], ",")[[1]]
-threshold <- as.integer(args[5])
-method <- args[6]
+method <- args[5]
+threshold <- as.integer(args[6])
 
 dir.create(file.path(output, "03_taxonomy"), showWarnings = FALSE)
 dir.create(file.path(output, "03_taxonomy", name), showWarnings = FALSE)
@@ -35,6 +35,10 @@ cat(paste0("You are using DECIPHER version ", packageVersion('DECIPHER'),'\n\n')
 dna <- DNAStringSet(getSequences(seqtab.nochim)) # Create a DNAStringSet from the ASVs
 
 load(tax_db[1])
+
+if (is.na(threshold)){
+    threshold <- 60
+}
 
 ids <- IdTaxa(dna,
              trainingSet,
@@ -57,6 +61,11 @@ colnames(taxid) <- ranks; rownames(taxid) <- getSequences(seqtab.nochim)
 
 }
 else { # use regular dada2 classificator
+  
+  if (is.na(threshold)){
+   threshold <- 50
+  }
+
   cat('# The taxonomic classification included in dada2 will be used\n')
   cat('# Taxonomy assigned to genus level\n')
   taxid <- assignTaxonomy(seqtab,
