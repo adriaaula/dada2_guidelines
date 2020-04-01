@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #SBATCH --account=<your-account>
-#SBATCH --job-name=tax_decipher
+#SBATCH --job-name=add_tax
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=48
 #SBATCH --output=data/logs/3_add_taxonomy_%J.out
