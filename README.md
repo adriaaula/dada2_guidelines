@@ -60,6 +60,10 @@ The script outputs the trimmed R1 and R2 files plus a log file (in `analysis/log
 
 You will need the primers used in your study!
 
+Finally, the following scripts are written assuming that your files have sample names at the beggining separated by `_` 
+and the pair information is written as `R1`/`R2` (e.g. `BL100101_whatever_R1.fastq`).
+We recommend you to follow this naming or otherwise dig into the scripts and change the corresponding lines.
+
 ## 0 - Qscore plots
 
 The first step in `DADA2` is to check the quality of your sequencing data. To do so, we provide the script `0_run-qscore.sh`, which calls the R script `0_qscore.R`. Basically, it creates 2 pdf files (forward and reverse) with the q score profile of your first 9 samples (or all your samples if your dataset is smaller). The files generated look like this:
@@ -119,18 +123,20 @@ Now that you got rid of ugly chimeras, it's time to add taxonomy.
 
 ## 3- Add taxonomy
 
-We will determine the taxonomy of ASVs using DECIPHER, which seems to retrieve
+Here you can choose whether to use `dada2` included classifier or `DECIPHER`. As far as we know,  DECIPHER seems to retrieve
 better results (see [paper](https://microbiomejournal.biomedcentral.com/articles/10.1186/s40168-018-0521-5) for comparison) than the standard naive Bayesian classifier.
 
-To do so, we will use the script `03_run-add-taxonomy.sh`, you will need to download the database you want to use at the [DECIPHER webpage](http://www2.decipher.codes/Downloads.html) and save it to `data/assign_tax`. 
-In the following days/weeks, we will try to make all databases public in marbits to prevent everyone downloading their copy of the database for each project.
+Anyway, we will use the script `03_run-add-taxonomy.sh`, where you can specify the classification method you desire.
+Regardless of the method used, we recomment you to put your databases/training sets `data/assign_tax`.
+If databases are already downloaded in your cluster, you can create a symlink (`ln -s path/to/db data/assign_tax/`) to your project.
 
-Once you have your database ready, you have to decide at which confidence level you want to classify your ASVs. This is what people at DECIPHER say:
+Once you have your database ready, when using `DECIPHER` you have to decide at which confidence level you want to classify your ASVs. This is what people at `DECIPHER` say:
 
 > Select a minimum confidence threshold for classifications. We recommend using a confidence of 60% (very high) or 50% (high). Longer sequences are easier to classify because they contain more information, so a larger fraction of sequences will be classified at the same confidence threshold. The primary error mode of sequence classifiers is overclassification, where a sequence belonging to a novel group is assigned to an existing taxonomic group, and the overclassification rate is largely independent of sequence length. Therefore, it is not necessary to change the confidence threshold for shorter input sequences.
 
 In the script we provide we set this level to 60, but feel free to play with it. After running your script, you will get a taxonomy table. 
-Although we recommend you to use R and .rds files to analyze the obtained data, we made the script to give also a .txt table with counts and taxonomy tables merged.
+
+For `dada2`'s classifier, you can specify the minimum bootstrap confidence for assigning a taxonomic level (`minBoot`). The default is 50.
 
 ## 4 - Look for duplicates/Clustering
 

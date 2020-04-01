@@ -59,30 +59,31 @@ taxid <- t(sapply(ids, function(x) {
 
 colnames(taxid) <- ranks; rownames(taxid) <- getSequences(seqtab.nochim)
 
-}
-else { # use regular dada2 classificator
+} else { # use regular dada2 classificator
   
   if (is.na(threshold)){
    threshold <- 50
   }
 
   cat('# The taxonomic classification included in dada2 will be used\n')
-  cat('# Taxonomy assigned to genus level\n')
-  taxid <- assignTaxonomy(seqtab,
+  taxid <- assignTaxonomy(seqtab.nochim,
                         tax_db[1], 
                         multithread=TRUE,
                         minBoot=threshold)
+  cat('# Taxonomy assigned to genus level\n')
+  
   if (!is.na(tax_db[2])) { # add species level if db available
-    cat('# Taxonomy assigned to species level\n')
     taxid <- addSpecies(taxid, 
                         tax_db[2], 
                         verbose=TRUE, 
                         allowMultiple=3)
+    cat('\n# Taxonomy assigned to species level\n')
   }
 }
 
 # Write to disk
 saveRDS(taxid, paste0(output, name, "_tax_assignation.rds"))
 
+cat('\n')
 cat(paste0('# The obtained taxonomy file can be found in "', paste0(output, name, "_tax_assignation.rds"), '"\n'))
 cat('\n# All done!\n\n')

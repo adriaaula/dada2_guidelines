@@ -30,7 +30,7 @@
 
 #[4] /Taxonomy db/ 
 #   Here you have to put your database[s] for classification.
-#   if using dada's assignTaxonomy() and assignSpecies() functions, put your 2 databases separated by a comma
+#   if using dada's assignTaxonomy() and addSpecies() functions, put your 2 databases separated by a comma
 #   if using only assignTaxonomy(), put your database   
 #   if using DECIPHER, the db has to be downloaded from http://www2.decipher.codes/Downloads.html and put here
 
