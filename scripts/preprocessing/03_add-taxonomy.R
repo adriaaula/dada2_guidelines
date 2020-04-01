@@ -6,7 +6,6 @@ library(tidyverse)
 library(DECIPHER)
 
 cat(paste0('\n',"You are using DADA2 version ", packageVersion('dada2'),'\n'))
-cat(paste0("You are using DECIPHER version ", packageVersion('DECIPHER'),'\n\n'))
 
 cat('################################\n\n')
 
@@ -15,8 +14,9 @@ args <- commandArgs(trailingOnly = TRUE)
 seqtab.nochim <- args[1]
 output <- args[2]
 name <- args[3]
-tax_db <- args[4]
+tax_db <- strsplit(args[4], ",")[[1]]
 threshold <- as.integer(args[5])
+method <- args[6]
 
 dir.create(file.path(output, "03_taxonomy"), showWarnings = FALSE)
 dir.create(file.path(output, "03_taxonomy", name), showWarnings = FALSE)
@@ -28,9 +28,13 @@ set.seed(42) #random  generator necessary for reproducibility
 
 seqtab.nochim <- readRDS(seqtab.nochim)
 
+if (grepl('[Dd]ecipher|DECIPHER', method){ # use decipher
+
+cat(paste0("You are using DECIPHER version ", packageVersion('DECIPHER'),'\n\n'))
+
 dna <- DNAStringSet(getSequences(seqtab.nochim)) # Create a DNAStringSet from the ASVs
 
-load(tax_db)
+load(tax_db[1])
 
 ids <- IdTaxa(dna,
              trainingSet,
@@ -51,20 +55,25 @@ taxid <- t(sapply(ids, function(x) {
 
 colnames(taxid) <- ranks; rownames(taxid) <- getSequences(seqtab.nochim)
 
+}
+else { # use regular dada2 classificator
+  cat('# The taxonomic classification included in dada2 will be used\n')
+  cat('# Taxonomy assigned to genus level\n')
+  taxid <- assignTaxonomy(seqtab,
+                        tax_db[1], 
+                        multithread=TRUE,
+                        minBoot=threshold)
+  if (!is.na(tax_db[2])) { # add species level if db available
+    cat('# Taxonomy assigned to species level\n')
+    taxid <- addSpecies(taxid, 
+                        tax_db[2], 
+                        verbose=TRUE, 
+                        allowMultiple=3)
+  }
+}
+
 # Write to disk
 saveRDS(taxid, paste0(output, name, "_tax_assignation.rds"))
 
-# Create a merged table with counts and tax
-
-taxid <- as_tibble(taxid, rownames = 'ASV')
-merged_table <- as_tibble(t(seqtab.nochim), rownames = 'ASV') %>%
-                left_join(taxid, by = 'ASV') %>%
-                mutate(ASV_id = paste0("asv",c(1:nrow(.)))) %>%
-                select(ASV_id, everything())
-
-write_tsv(x = merged_table,
-          path = paste0(output, name, "_merged_table.txt"))
-
 cat(paste0('# The obtained taxonomy file can be found in "', paste0(output, name, "_tax_assignation.rds"), '"\n'))
-cat(paste0('# Although we always recommend you to work directly in R with .rds files, we created a .txt in "',paste0(output, name, "_merged_table.txt",'" with tax and counts tables merged\n')))
 cat('\n# All done!\n\n')
