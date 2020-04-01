@@ -60,7 +60,7 @@ The script outputs the trimmed R1 and R2 files plus a log file (in `analysis/log
 
 You will need the primers used in your study!
 
-Finally, the following scripts are written assuming that your files have sample names at the beggining separated by `_` 
+Finally, the following scripts are written assuming that your files have sample names written at the beggining of the filename separated by `_` 
 and the pair information is written as `R1`/`R2` (e.g. `BL100101_whatever_R1.fastq`).
 We recommend you to follow this naming or otherwise dig into the scripts and change the corresponding lines.
 
@@ -127,7 +127,7 @@ Here you can choose whether to use `dada2` included classifier or `DECIPHER`. As
 better results (see [paper](https://microbiomejournal.biomedcentral.com/articles/10.1186/s40168-018-0521-5) for comparison) than the standard naive Bayesian classifier.
 
 Anyway, we will use the script `03_run-add-taxonomy.sh`, where you can specify the classification method you desire.
-Regardless of the method used, we recomment you to put your databases/training sets `data/assign_tax`.
+Regardless of the method used, we recommend you to put your databases/training sets into `data/assign_tax`.
 If databases are already downloaded in your cluster, you can create a symlink (`ln -s path/to/db data/assign_tax/`) to your project.
 
 Once you have your database ready, when using `DECIPHER` you have to decide at which confidence level you want to classify your ASVs. This is what people at `DECIPHER` say:
