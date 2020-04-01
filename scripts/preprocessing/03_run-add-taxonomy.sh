@@ -67,6 +67,6 @@ Rscript scripts/preprocessing/03_add-taxonomy.R \
 #     data/dada2/02_nochimera_mergeruns/blanes_project/blanes_project_seqtab_final.rds \
 #     data/dada2/ \
 #     blanes_project \
-#     data/assign_tax/your_database.fasta \
+#     data/assign_tax/your_database_training.fasta,data/assing_tax/your_database_species.fasta \
 #     dada \
 #     50
