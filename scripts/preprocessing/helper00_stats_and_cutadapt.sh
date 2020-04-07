@@ -31,7 +31,8 @@ module load cutadapt
 ### and sample name is in the second field (stated by '{print $2}').
 ### Before runnning the script adapt these 2 options to your samples names.
 
-for SAMPLE in $(ls ${DATA_DIR}/*fastq* | awk -F"/" '{print $NF}' |  sed 's/_R[1,2].*$//g' | sort -u); do
+for SAMPLE in $(ls ${DATA_DIR}/*fastq* | awk -F"/" '{print $NF}' |  sed 's/_R[1,2].*$//g' | sort -u)
+do
   cutadapt \
     --discard-untrimmed \
     --pair-filter=any \
