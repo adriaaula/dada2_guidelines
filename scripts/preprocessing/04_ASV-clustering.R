@@ -45,29 +45,12 @@ cat(paste0('# ',
            length(asv_sequences),
            ' ASVs\n'))
 
-clusters <- clusters %>%
-  mutate(sequence = asv_sequences,
-         size = asv_sizes)
-
-representatives <- 
-  clusters %>% 
-  arrange(desc(size)) %>% 
-  group_by(cluster) %>% 
-  filter(size == max(size)) %>% 
-  select(-size)
-
-asv2otu_corr <- 
-  clusters %>% 
-  select(-size) %>% 
-  filter(!sequence %in% 
-           representatives$sequence) %>% 
-  left_join(select(representatives,
-                   OTU = sequence,
-                   cluster),
-            by = 'cluster') %>% 
-  arrange(cluster) %>% 
-  dplyr::rename(ASV = sequence) %>% 
-  select(cluster, OTU, ASV)
+clusters <-
+  tibble(ASV = asv_sequences,
+         cluster = clusters$cluster) %>%
+  mutate(size = asv_sizes) %>%
+  group_by(cluster) %>%
+  mutate(OTU = ASV[size == max(size)][1]) # avoid having duplicates when length(max(size)) > 1
 
 summary_clustering <- 
   clusters %>% 
@@ -87,14 +70,14 @@ merged_seqtab <-
   rowsum(clusters$cluster) %>%
   as_tibble(rownames = 'cluster') %>%
   mutate(cluster = as.integer(cluster)) %>% 
-  left_join(representatives,
+  left_join(clusters %>% select(OTU, cluster) %>% unique(),
             by = 'cluster') %>% 
   select(-cluster) %>% 
-  column_to_rownames('sequence') %>% 
+  column_to_rownames('OTU') %>% 
   t()
 
 saveRDS(merged_seqtab, paste0(output,name.run,"_seqtab_clust",args[2],".rds"))
-write_tsv(asv2otu_corr, paste0(output,name.run,"_ASV2OTU_clust",args[2],".tsv"))
+write_tsv(clusters, paste0(output,name.run,"_ASV2OTU_clust",args[2],".tsv"))
 
 cat(paste0('# An OTU clustered table was created, you can find it in "',
            paste0(output,name.run,"_seqtab_clust",args[2],".rds"),
