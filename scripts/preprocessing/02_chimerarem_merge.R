@@ -22,9 +22,13 @@ dir.create(file.path(output, "02_nochimera_mergeruns", name), showWarnings = FAL
 output <- paste0(output,"/02_nochimera_mergeruns/",name,"/")
 
 # Get all the rds files
-list.df <- map(seqtables, readRDS)
 
-st.all <- mergeSequenceTables(tables = list.df)
+if (length(seqtables) > 1){
+  list.df <- map(seqtables, readRDS)
+  st.all <- mergeSequenceTables(tables = list.df)
+} else {
+  st.all <- readRDS(seqtables)
+}
 
 track.final <- data.frame(sample = rownames(st.all),
                           raw = rowSums(st.all))
@@ -90,3 +94,4 @@ cat(paste0('# Your final ASV table can be found in "', paste0(output, name, "_se
 cat(paste0('# A FASTA file with your final ASVs was written in "',paste0(output, name, "_seqtab_final.fasta"), '"\n'))
 cat(paste0('# In "',paste0(output, name, "_track_analysis_final.tsv"),"\" you will find a table where you can check the loss of reads in each step. Check it out to see if everything's correct!",'\n'))
 cat('\n# All done!\n\n')
+
