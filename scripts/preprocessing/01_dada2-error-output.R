@@ -17,6 +17,18 @@ trunclen <- as.integer(strsplit(args[4], ",")[[1]])
 maxee <- as.integer(strsplit(args[5], ",")[[1]])
 
 minover <- as.integer(args[6]) ##Default value is 15, not a good option go below 10.
+pool_method <- args[7]
+
+pool_method <- 
+    if (is.na(pool_method)){
+        pool_method <- FALSE
+    } else if (grepl('pool',pool_method)){
+        pool_method <- TRUE
+    } else if (grepl('pseudo',pool_method)){
+        pool_method <- 'pseudo'
+    } else {
+        pool_method <- FALSE
+    }
 
 ## ------------------------------------------------------------------------
 fnFs <- sort(list.files(path, pattern="R1.fastq"))
@@ -75,8 +87,17 @@ names(derepRs) <- sample.names
 cat('\n# Dereplication done\n\n')
 
 ## ------------------------------------------------------------------------
-dadaFs <- dada(derepFs, err=errF, multithread=TRUE)
-dadaRs <- dada(derepRs, err=errR, multithread=TRUE)
+if (pool_method == TRUE){
+    cat('\n# Performing dada inference with pooling\n\n')
+    } else if (pool_method == FALSE) {
+        cat('\n# Performing dada inference with no pooling\n\n')
+    } else {
+        cat(paste0('\n# Performing dada inference with pooling method ',pool_method,'\n\n'))
+}
+
+
+dadaFs <- dada(derepFs, err=errF, multithread=TRUE,pool=pool_method)
+dadaRs <- dada(derepRs, err=errR, multithread=TRUE,pool=pool_method)
 
 cat('\n# DADA2 algorithm performed\n\n')
 

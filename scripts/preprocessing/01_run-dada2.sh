@@ -46,6 +46,9 @@
 #                            most of the reads, an option is to lower the value to see the incremental changes. Beware not to
 #                            go below 8.
 
+#[7] /pooling method/ This is optional, write 'pool' if you want dada2 to pool together all samples prior to sample inference.
+#                     Write 'pseudo' to perform pseudo-pooling between individually processed samples (less computationally demanding).
+#                     If you do not write anything default is no pooling.
 
 module load gcc
 module load R
