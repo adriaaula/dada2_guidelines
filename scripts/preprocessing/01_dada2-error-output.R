@@ -28,11 +28,11 @@ fnRs <- file.path(path, fnRs)
 
 ## ------------------------------------------------------------------------
 #Check and create a dir for filtered fastqs
-dir.create(file.path(path, "filtered"), showWarnings = FALSE)
+dir.create(file.path(path, paste0("filtered_",name.run)), showWarnings = FALSE)
 
-filt_path <- file.path(path, "filtered") # Filtered fast in filtered/ subdir
-filtFs <- file.path(filt_path, paste0(sample.names, "_F_filt.fastq"))
-filtRs <- file.path(filt_path, paste0(sample.names, "_R_filt.fastq"))
+filt_path <- file.path(path, paste0("filtered_",name.run)) # Filtered fasta in filtered_<name.run>/ subdir
+filtFs <- file.path(filt_path, paste0(sample.names, "_F_filt.fastq.gz"))
+filtRs <- file.path(filt_path, paste0(sample.names, "_R_filt.fastq.gz"))
 
 ## ------------------------------------------------------------------------
 
