@@ -15,6 +15,15 @@ seqtables <- strsplit(args[1], ",")[[1]]
 output <- args[2]
 name <- args[3]
 trim_length <- as.integer(strsplit(args[4], ",")[[1]])
+chimera_method <- args[5]
+
+pool_method <- 
+    if (is.na(chimera_method)){
+        chimera_method <- 'consensus'
+    } else if (grepl('pool',chimera_method)){
+        chimera_method <- 'pooled'
+    } 
+
 
 dir.create(file.path(output, "02_nochimera_mergeruns"), showWarnings = FALSE)
 dir.create(file.path(output, "02_nochimera_mergeruns", name), showWarnings = FALSE)
@@ -33,7 +42,9 @@ if (length(seqtables) > 1){
 track.final <- data.frame(sample = rownames(st.all),
                           raw = rowSums(st.all))
 
-seqtab.raw <- removeBimeraDenovo(st.all, method="consensus",
+cat(paste0('\n# Performing chimera removal with method ',chimera_method,'\n\n'))
+
+seqtab.raw <- removeBimeraDenovo(st.all, method=chimera_method,
                                      multithread=TRUE)
 
 num.chimera.removed <- ncol(st.all) - ncol(seqtab.raw)

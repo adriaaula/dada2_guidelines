@@ -30,6 +30,9 @@
 #[4] /trim length/ After all the processing, some unespecific amplified reads still are present in the samples.
 #                   Time to cut them down. Specify with a range which read you want to keep (Example: 400,450)
 
+#[5] /chimera removal method/ One of 'consensus' (default), 'pooled' or 'per-sample'
+#                             If you used pooling in dada inference step you should use 'pooled' method
+
 module load gcc
 module load R
 
@@ -39,7 +42,8 @@ Rscript scripts/preprocessing/02_chimerarem_merge.R \
                     data/dada2/01_errors-output/blanes_project/blanes_project_seqtab.rds \
                     data/dada2/ \
                     blanes_project \
-                    400,450
+                    400,450 \
+                    consensus
 
 # If you have multple seqtabs, it should be written like this:
 
