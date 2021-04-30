@@ -25,7 +25,20 @@ run.name <- args[3] # Run name. A directory for the values will be created
 fnFs <- sort(list.files(path, pattern = 'R1.fastq'))
 fnRs <- sort(list.files(path, pattern= 'R2.fastq'))
 
-sample.names <- sapply(strsplit(fnFs, "_"), `[`, 1) # BEWARE with the field separator in strsplit() command, can change between runs
+if (length(fnFs) == 0){
+  stop("It could be that your data directory is empty.
+       Otherwise filenames do not seem to follow the pattern <sample-name>_R1.fastq
+       Please check these and run again")
+}
+
+sample.names <- 
+  map_chr(.x = fnFs,
+          .f = ~ gsub("(.*)_R[12].*", "\\1",.x))
+
+if (length(unique(sample.names)) != length(fnFs)){
+  stop("Filenames do not seem to follow the pattern <sample-name>_R1.fastq
+       Please check these and run again")
+}
 
 fnFs <- file.path(path, fnFs)
 fnRs <- file.path(path, fnRs)
