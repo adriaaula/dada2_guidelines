@@ -34,7 +34,7 @@
 #   if using only assignTaxonomy(), put your database   
 #   if using DECIPHER, the db has to be downloaded from http://www2.decipher.codes/Downloads.html and put here
 
-#[5] /Taxonomy classification methon/ 
+#[5] /Taxonomy classification method/ 
 #   write 'decipher' if you want to use DECIPHER's IdTaxa() to classify
 #   write 'dada' if you want to use the classifier included in dada2
 
