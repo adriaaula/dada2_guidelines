@@ -33,7 +33,7 @@ if (length(fnFs) == 0){
 
 sample.names <- 
   map_chr(.x = fnFs,
-          .f = ~ gsub("(.*)_R[12].*", "\\1",.x))
+          .f = ~ gsub("(.*)_R1\\.fastq.*", "\\1",.x))
 
 if (length(unique(sample.names)) != length(fnFs)){
   stop("Filenames do not seem to follow the pattern <sample-name>_R1.fastq
