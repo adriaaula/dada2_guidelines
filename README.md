@@ -60,8 +60,8 @@ The script outputs the trimmed R1 and R2 files plus a log file (in `analysis/log
 
 You will need the primers used in your study!
 
-Finally, the following scripts are written assuming that your files have sample names written at the beggining of the filename separated by `_` 
-and the pair information is written as `R1`/`R2` (e.g. `BL100101_whatever_R1.fastq`).
+Finally, the following scripts are written assuming that your files have sample names written at the beggining of the filename
+and the pair information is written as `R1`/`R2` (i.e. `<sample-name>_R1.fastq`).
 We recommend you to follow this naming or otherwise dig into the scripts and change the corresponding lines.
 
 ## 0 - Qscore plots
