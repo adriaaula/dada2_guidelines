@@ -34,7 +34,11 @@ cat(paste0("You are using DECIPHER version ", packageVersion('DECIPHER'),'\n\n')
 
 dna <- DNAStringSet(getSequences(seqtab.nochim)) # Create a DNAStringSet from the ASVs
 
-load(tax_db[1])
+if (grepl('\\.RData$', tax_db)){
+  load(tax_db[1])
+} else if (grepl('\\.rds$',tax_db)){
+  trainingSet <- readRDS(tax_db)
+}
 
 if (is.na(threshold)){
     threshold <- 60
