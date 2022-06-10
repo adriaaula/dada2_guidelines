@@ -105,7 +105,7 @@ ggsave(plot = qplot_r_lines,
        units = 'mm')
 
 cat(paste0('# Two files ("forward.pdf" and "reverse.pdf") were created in "', out.diag,'". They contain the quality profile of the first 9 samples.\n'))
-cat('# You have to copy them to your local computer using "ssh user@marbits:path/to/files/*pdf ." and check them to decide where to trim.\n')
+cat('# You have to copy them to your local computer using "scp user@marbits:path/to/files/*pdf ." and check them to decide where to trim.\n')
 
 cat('\nAll done!\n\n')
 
