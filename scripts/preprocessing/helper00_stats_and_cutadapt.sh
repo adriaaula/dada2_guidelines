@@ -27,9 +27,9 @@ module load cutadapt
 # cutadapt
 
 ### The first line in the following loop takes sample names.
-### In this case, assumes that fields in filename are separated by '-' (in the option -F '-')
-### and sample name is in the second field (stated by '{print $2}').
-### Before runnning the script adapt these 2 options to your samples names.
+### In this case, assumes that pair identifiers are '_R1' and '_R2'.
+### Change these if this is not your case.
+### Alternatively you could create a file with all your samples names and iterate over it (i.e. for SAMPLE in $(cat samples.txt); do...)
 
 for SAMPLE in $(ls ${DATA_DIR}/*fastq* | awk -F"/" '{print $NF}' |  sed 's/_R[1,2].*$//g' | sort -u)
 do
@@ -42,8 +42,8 @@ do
     -o ${OUT_DIR}/${SAMPLE}_trimmed_R1.fastq.gz \
     -p ${OUT_DIR}/${SAMPLE}_trimmed_R2.fastq.gz \
     -O ${MIN_R} \
-    ${DATA_DIR}/*${SAMPLE}*_R1*.fastq* \
-    ${DATA_DIR}/*${SAMPLE}*_R2*.fastq* \
+    ${DATA_DIR}/${SAMPLE}*_R1*.fastq* \
+    ${DATA_DIR}/${SAMPLE}*_R2*.fastq* \
     > ${LOG_DIR}/${SAMPLE}.log
 done
 
