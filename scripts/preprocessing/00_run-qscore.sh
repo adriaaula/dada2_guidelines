@@ -39,8 +39,8 @@
 module load R
 
 Rscript scripts/preprocessing/00_qscore.R \
-        data/trimmed \
-        data/dada2/ \
+        data/raw \
+        data/dada2 \
         blanes_project
 
 # IMPORTANT POINT !!!!
