@@ -3,7 +3,6 @@
 
 library(dada2)
 library(tidyverse)
-library(DECIPHER)
 
 cat(paste0('\n',"You are using DADA2 version ", packageVersion('dada2'),'\n'))
 
@@ -30,6 +29,7 @@ seqtab.nochim <- readRDS(seqtab.nochim)
 
 if (grepl('[Dd]ecipher|DECIPHER', method)){ # use decipher
 
+library(DECIPHER)
 cat(paste0("You are using DECIPHER version ", packageVersion('DECIPHER'),'\n\n'))
 
 dna <- DNAStringSet(getSequences(seqtab.nochim)) # Create a DNAStringSet from the ASVs
