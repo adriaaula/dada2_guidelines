@@ -47,13 +47,15 @@ if (grepl('[Dd]ecipher|DECIPHER', method)){ # use decipher
       threshold <- 60
   }
 
+  names(dna) <- as.character(dna)
+  
   ids <- IdTaxa(dna,
               trainingSet,
               strand = "top",
               processors = NULL,
               verbose = FALSE,
               threshold = threshold)
-
+  
   ranks <- paste0('level',1:max(trainingSet$levels))
 
   # Convert the output object of class "Taxa" to a matrix analogous to the output from assignTaxonomy
@@ -81,7 +83,7 @@ if (grepl('[Dd]ecipher|DECIPHER', method)){ # use decipher
     filter(taxo_level != "Root") %>%
     pivot_wider(names_from = taxo_level, values_from = c(taxonomy, confidence))
 
-    write_tsv(df, paste0(output, name, "_decipher_output.txt"))
+  write_tsv(df, paste0(output, name, "_tax_confidence_decipher.txt"))
 
 } else { # use regular dada2 classificator
   
@@ -112,9 +114,6 @@ if (grepl('[Dd]ecipher|DECIPHER', method)){ # use decipher
     cat('\n# Taxonomy assigned to species level\n')    
   }
 
-  rownames(taxid$tax) <- colnames(seqtab.nochim)
-  rownames(taxid$boot) <- colnames(seqtab.nochim)
-
   tax_table <-
     taxid$tax %>%
     as_tibble(rownames = 'seq_name')
@@ -124,7 +123,7 @@ if (grepl('[Dd]ecipher|DECIPHER', method)){ # use decipher
     as_tibble(rownames = 'seq_name')
   
   write_tsv(tax_table, paste0(output, name, "_tax_assignation_dada.txt"))
-  write_tsv(boot_table, paste0(output, name, "_dada_output.txt"))
+  write_tsv(boot_table, paste0(output, name, "_tax_boot_dada.txt"))
 
 }
 
