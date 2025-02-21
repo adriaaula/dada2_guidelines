@@ -55,7 +55,7 @@ fnRs <- file.path(path, fnRs)
 
 ## ------------------------------------------------------------------------
 #Check and create a dir for filtered fastqs
-dir.create(file.path(path, paste0("filtered_",name.run)), showWarnings = FALSE)
+dir.create(file.path(path, paste0("filtered_",name.run)), showWarnings = FALSE, recursive = T)
 
 filt_path <- file.path(path, paste0("filtered_",name.run)) # Filtered fasta in filtered_<name.run>/ subdir
 filtFs <- file.path(filt_path, paste0(sample.names, "_F_filt.fastq.gz"))
@@ -74,8 +74,8 @@ cat(paste0('# Reverse pair: trimming at ',trunclen[2],'bp and max expected error
 ## ------------------------------------------------------------------------
 #Check and create a dir for output results
 
-dir.create(file.path(output, "01_errors-output"), showWarnings = FALSE)
-dir.create(file.path(output, "01_errors-output", name.run), showWarnings = FALSE)
+dir.create(file.path(output, "01_errors-output"), showWarnings = FALSE, recursive = T)
+dir.create(file.path(output, "01_errors-output", name.run), showWarnings = FALSE, recursive = T)
 
 output <- str_c(output,"/01_errors-output/",name.run,"/")
 

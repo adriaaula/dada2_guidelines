@@ -25,8 +25,8 @@ pool_method <-
     } 
 
 
-dir.create(file.path(output, "02_nochimera_mergeruns"), showWarnings = FALSE)
-dir.create(file.path(output, "02_nochimera_mergeruns", name), showWarnings = FALSE)
+dir.create(file.path(output, "02_nochimera_mergeruns"), showWarnings = FALSE, recursive = T)
+dir.create(file.path(output, "02_nochimera_mergeruns", name), showWarnings = FALSE, recursive = T)
 
 output <- paste0(output,"/02_nochimera_mergeruns/",name,"/")
 

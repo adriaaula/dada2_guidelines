@@ -45,8 +45,8 @@ fnRs <- file.path(path, fnRs)
 
 ### Since a qprofile dir can be not present we check and create it
 
-dir.create(file.path(output, "00_qprofiles"), showWarnings = FALSE)
-dir.create(file.path(output, "00_qprofiles",run.name), showWarnings = FALSE)
+dir.create(file.path(output, "00_qprofiles"), showWarnings = FALSE, recursive = T)
+dir.create(file.path(output, "00_qprofiles",run.name), showWarnings = FALSE, recursive = T)
 
 out.diag <- file.path(output, "00_qprofiles", run.name)
 

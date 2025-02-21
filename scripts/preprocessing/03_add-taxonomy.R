@@ -18,8 +18,8 @@ tax_db <- strsplit(args[4], ",")[[1]]
 method <- args[5]
 threshold <- as.integer(args[6])
 
-dir.create(file.path(output, "03_taxonomy"), showWarnings = FALSE)
-dir.create(file.path(output, "03_taxonomy", name), showWarnings = FALSE)
+dir.create(file.path(output, "03_taxonomy"), showWarnings = FALSE, recursive = T)
+dir.create(file.path(output, "03_taxonomy", name), showWarnings = FALSE, recursive = T)
 
 output <- paste0(output,"/03_taxonomy/",name,"/")
 
