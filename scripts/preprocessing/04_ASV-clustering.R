@@ -106,22 +106,24 @@ representatives <-
   ungroup() |> 
   select(seq, representative)
 
-merged_seqtab <- 
+seqtab_with_representatives <- 
   seqtab |> 
-  as_tibble(rownames = 'sample') |> 
-  pivot_longer(names_to = 'seq',
-               values_to = 'abundance',
-               -1) |> 
-  left_join(representatives, by = 'seq') |> 
-  group_by(representative, sample) |> 
-  summarise(abundance = sum(abundance), .groups = 'drop_last') |> # add .groups to avoid annoying summarise warning
-  pivot_wider(names_from = representative,
-              values_from = abundance,
-              values_fill = 0) |> 
-  column_to_rownames('sample')
+  as.data.table(keep.rownames = 'sample') |> # transform to data.table
+  melt(id.vars = "sample", 
+       variable.name = "seq", 
+       value.name = "abundance") |> # put in long format
+  merge(representatives, by = 'seq') # join representatives
+
+merged_seqtab <- 
+  seqtab_with_representatives[, .(abundance = sum(abundance)), keyby = .(representative, sample)] |> # collapse countsby representatives 
+  dcast(sample ~ representative,
+        value.var = 'abundance',
+        fill = 0) |> # put in wide format
+  as_tibble() |> # transform to table
+  column_to_rownames('sample') |> # put sample as rownames to keep original format
+  setcolorder(unique(representatives$representative)) # keep original ASV order as much as possible
 
 saveRDS(merged_seqtab, paste0(output,name.run,"_seqtab_clust_",id,"id.rds"))
-
 
 cat(paste0('# A clustered table was created, you can find it in "',
            paste0(output,name.run,"_seqtab_clust",id,"id.rds"),
