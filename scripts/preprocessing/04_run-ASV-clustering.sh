@@ -21,6 +21,11 @@
 #[4] /name/ A common identifier to be sure that the output is the
 #            correct one. You will thank us that :^)
 
+#[5] /cluster representatives method/ choose whether representatives should be chosen based on 
+#                                     abundance (most abundant ASV as representative) or length (longest ASV as representative). 
+
+#[6] /min coverage/ minimum fraction of sequence positions that must be overlapping for a sequence to be clustered with the cluster representative.
+
 module load R
 
 # remember, this is an example
@@ -29,4 +34,6 @@ Rscript scripts/preprocessing/04_ASV-clustering.R \
     data/dada2/02_nochimera_mergeruns/blanes_project/blanes_project_seqtab_final.rds \
     97 \
     data/dada2/ \
-    blanes_project
+    blanes_project \
+    abundance \
+    0.9

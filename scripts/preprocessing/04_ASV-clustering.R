@@ -1,90 +1,129 @@
-library(tidyverse)
-library(DECIPHER)
-library(Biostrings)
+suppressMessages(library(tidyverse))
+suppressMessages(library(DECIPHER))
+suppressMessages(library(Biostrings))
+suppressMessages(library(data.table))
+
+cat(paste0("# You are using DECIPHER version ", packageVersion('DECIPHER'),'\n'))
+
+## read args
 
 args <- commandArgs(trailingOnly = TRUE)
 
 seqtab <- readRDS(args[1])
-id <- (100 - as.integer(args[2]))/100
+id <- as.numeric(args[2])
+cutoff <- (100-id)/100
 output <- args[3]
 name.run <- args[4]
+representative <- args[5]
+min.coverage <- as.numeric(args[6])
 
-cat(output)
-cat(name.run)
-cat(id)
-cat(args[2])
-cat(class(args[2]))
-cat(class(id))
+dir.create(output, showWarnings = FALSE, recursive = T) # create output dir in case it does not exist
 
-asv_sequences <- colnames(seqtab)
-sample_names <- rownames(seqtab)
-dna <- Biostrings::DNAStringSet(asv_sequences)
-asv_sizes <- colSums(seqtab)
+cat(paste0('# Clustering at ',id,'% identity\n'))
 
-## Find clusters of ASVs to form the new OTUs
-alignment <- 
-  DECIPHER::AlignSeqs(dna, 
-                      processors = NULL)
+## Create ASV df
 
-dist_matrix <- 
-  DECIPHER::DistanceMatrix(alignment,
-                           processors = NULL)
+asv_df <- 
+  tibble(
+    seq = colnames(seqtab),
+    size = colSums(seqtab)
+  ) |> 
+  mutate(length = nchar(seq),
+         name = paste0('ASV_',row_number())) # add names to avoid duplicates
 
-clusters <- 
-  DECIPHER::IdClusters(
-  dist_matrix, 
-  method = "complete",
-  cutoff = id, # use `cutoff = 0.03` for a 97% OTU 
-  processors = NULL)
+## Create DNAStringSet for clustering
 
-cat(paste0('# Clustering at ',args[2],'% identity\n'))
+dna <-
+  asv_df |> 
+  select(name, seq) |> 
+  deframe() |> 
+  DNAStringSet()
 
-cat(paste0('# ',
-           length(unique(clusters$cluster)),
-           ' OTUs created out of ',
-           length(asv_sequences),
-           ' ASVs\n'))
+## Find clusters of ASVs 
 
 clusters <-
-  tibble(ASV = asv_sequences,
-         cluster = clusters$cluster) %>%
-  mutate(size = asv_sizes) %>%
-  group_by(cluster) %>%
-  mutate(OTU = ASV[size == max(size)][1]) # avoid having duplicates when length(max(size)) > 1
+  Clusterize(
+    myXStringSet = dna,
+    cutoff = cutoff,
+    minCoverage = min.coverage,
+    processors = NULL
+  ) |> 
+  as_tibble(rownames = 'name')
+
+cat(paste0('# ',
+           n_distinct(clusters$cluster),
+           ' clusters created out of ',
+           length(dna),
+           ' ASVs\n'))
 
 summary_clustering <- 
-  clusters %>% 
-  group_by(cluster) %>% 
-  tally() %>% 
-  pull(n) %>% 
+  clusters |> 
+  group_by(cluster) |> 
+  tally() |> 
+  pull(n) |>  
   summary()
 
 cat('# Summary of cluster sizes:\n')
 print(summary_clustering)
 
-cat('\n# Creating the clustered seqtab...\n')
+asv_df_clusters <- 
+  asv_df |> 
+  left_join(clusters, by  = 'name')
+
+if (representative == 'abundance'){
+  
+  cat('# Selecting cluster representatives by highest abundance\n')
+  
+  clusters_out <- 
+    asv_df_clusters |> 
+    arrange(-size, -length) |> 
+    group_by(cluster) |> 
+    mutate(representative = dplyr::first(seq)) |> 
+    select(-name)
+    
+} else if (representative == 'length'){
+  
+  cat('# Selecting cluster representatives by highest length\n')
+  
+  clusters_out <- 
+    asv_df_clusters |> 
+    arrange(-length, -size) |> 
+    group_by(cluster) |> 
+    mutate(representative = dplyr::first(seq)) |> 
+    select(-name)
+  
+} else {
+  stop("Representative method selection must be one of the following: 'abundance', 'length'")
+}
+
+representatives <- 
+  clusters_out |> 
+  ungroup() |> 
+  select(seq, representative)
 
 merged_seqtab <- 
-  seqtab %>% 
-  t() %>%
-  rowsum(clusters$cluster) %>%
-  as_tibble(rownames = 'cluster') %>%
-  mutate(cluster = as.integer(cluster)) %>% 
-  left_join(clusters %>% select(OTU, cluster) %>% unique(),
-            by = 'cluster') %>% 
-  select(-cluster) %>% 
-  column_to_rownames('OTU') %>% 
-  t()
+  seqtab |> 
+  as_tibble(rownames = 'sample') |> 
+  pivot_longer(names_to = 'seq',
+               values_to = 'abundance',
+               -1) |> 
+  left_join(representatives, by = 'seq') |> 
+  group_by(representative, sample) |> 
+  summarise(abundance = sum(abundance), .groups = 'drop_last') |> # add .groups to avoid annoying summarise warning
+  pivot_wider(names_from = representative,
+              values_from = abundance,
+              values_fill = 0) |> 
+  column_to_rownames('sample')
+  
+saveRDS(merged_seqtab, paste0(output,name.run,"_seqtab_clust_",id,"id.rds"))
+write_tsv(clusters_out, paste0(output,name.run,"_clusters_",id,"id.tsv"))
 
-saveRDS(merged_seqtab, paste0(output,name.run,"_seqtab_clust",args[2],".rds"))
-write_tsv(clusters, paste0(output,name.run,"_ASV2OTU_clust",args[2],".tsv"))
-
-cat(paste0('# An OTU clustered table was created, you can find it in "',
-           paste0(output,name.run,"_seqtab_clust",args[2],".rds"),
+cat(paste0('# A clustered table was created, you can find it in "',
+           paste0(output,name.run,"_seqtab_clust",id,"id.rds"),
            '"\n'))
 
-cat(paste0('# An OTU to ASV correspondence table was created, you can find it in "',
-           paste0(output,name.run,"_ASV2OTU_clust",args[2],".tsv"),
+cat(paste0('# A correspondence table between ASVs and cluster representatives was created, you can find it in "',
+           paste0(output,name.run,"_clusters",id,"id.tsv"),
            '"\n'))
 
 cat('# All done!\n')
