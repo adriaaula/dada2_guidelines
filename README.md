@@ -140,7 +140,7 @@ For `dada2`'s classifier, you can specify the minimum bootstrap confidence for a
 
 ## 4 - Look for duplicates/Clustering
 
-We detected that, in some cases, merging tables from different runs gives reads that are identical but differ in length by a few base pairs.
+We detected that, in some cases, merging tables from different runs gives ASVs that are identical but differ in length by a few base pairs.
 This can also happen when merging datasets that were amplified with primers that start at slightly different positions. 
 
 In previous versions we used the `collapseNoMismatch` function inside DADA2 to solve this problem. However, it is extremely slow and should not be used for large datasets (more [here](https://github.com/benjjneb/dada2/issues/626)). So, we removed this step in the merging script.
