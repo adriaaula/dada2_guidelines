@@ -96,6 +96,13 @@ if (representative == 'abundance'){
   stop("Representative method selection must be one of the following: 'abundance', 'length'")
 }
 
+cat(paste0('# A correspondence table between ASVs and cluster representatives was created, you can find it in "',
+           paste0(output,name.run,"_clusters",id,"id.tsv"),
+           '"\n'))
+write_tsv(clusters_out, paste0(output,name.run,"_clusters_",id,"id.tsv"))
+
+cat('\n# Creating the clustered seqtab...\n')
+
 representatives <- 
   clusters_out |> 
   ungroup() |> 
@@ -116,14 +123,12 @@ merged_seqtab <-
   column_to_rownames('sample')
   
 saveRDS(merged_seqtab, paste0(output,name.run,"_seqtab_clust_",id,"id.rds"))
-write_tsv(clusters_out, paste0(output,name.run,"_clusters_",id,"id.tsv"))
+
 
 cat(paste0('# A clustered table was created, you can find it in "',
            paste0(output,name.run,"_seqtab_clust",id,"id.rds"),
            '"\n'))
 
-cat(paste0('# A correspondence table between ASVs and cluster representatives was created, you can find it in "',
-           paste0(output,name.run,"_clusters",id,"id.tsv"),
-           '"\n'))
+
 
 cat('# All done!\n')
