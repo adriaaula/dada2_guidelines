@@ -75,19 +75,14 @@ cat("\n# The variants (ASVs) after length filtering have the following length di
 table(nchar(getSequences(seqtab)))
 
 track.final <- track.final %>%
-                    mutate( too_long_variants = rowSums(seqtab))
+                    mutate( too_long_variants = rowSums(seqtab),
+                           diff.total = round(too_long_variants / raw, digits =2))
+
+write_tsv(track.final, paste0(output, name, "_track_analysis_final.tsv"))
 
 final <- sum(colSums(seqtab))
 
 cat(paste0("\n# A total of ", round((final * 100) / total, digits =2), "% reads were kept after length filtering.\n\n"))
-
-cat("# Collapsing at 100% id\n\n")
-
-seqtab <- collapseNoMismatch(seqtab,  minOverlap = 50)
-
-track.final <- track.final %>%
-                    mutate( collapsed_100 = rowSums(seqtab))
-
 
 saveRDS(seqtab, paste0(output, name, "_seqtab_final.rds"))
 
@@ -96,10 +91,7 @@ uniquesToFasta(seqtab,
                paste0(output, name, "_seqtab_final.fasta"),
                ids= paste0("asv",c(1:ncol(seqtab)), ";size=", colSums(seqtab)))
 
-track.final <- track.final %>%
-               mutate( diff.total = round(collapsed_100 / raw, digits =2))
 
-write_tsv(track.final, paste0(output, name, "_track_analysis_final.tsv"))
 
 cat(paste0('# Your final ASV table can be found in "', paste0(output, name, "_seqtab_final.rds"),'"\n'))
 cat(paste0('# A FASTA file with your final ASVs was written in "',paste0(output, name, "_seqtab_final.fasta"), '"\n'))
