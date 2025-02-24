@@ -76,9 +76,8 @@ if (representative == 'abundance'){
   
   clusters_out <- 
     asv_df_clusters |> 
-    arrange(-size, -length) |> 
     group_by(cluster) |> 
-    mutate(representative = dplyr::first(seq)) |> 
+    mutate(representative = seq[size == max(size)][1]) |> 
     select(-name)
     
 } else if (representative == 'length'){
@@ -87,9 +86,8 @@ if (representative == 'abundance'){
   
   clusters_out <- 
     asv_df_clusters |> 
-    arrange(-length, -size) |> 
     group_by(cluster) |> 
-    mutate(representative = dplyr::first(seq)) |> 
+    mutate(representative = seq[length == max(length)][1]) |> 
     select(-name)
   
 } else {
@@ -121,14 +119,12 @@ merged_seqtab <-
               values_from = abundance,
               values_fill = 0) |> 
   column_to_rownames('sample')
-  
+
 saveRDS(merged_seqtab, paste0(output,name.run,"_seqtab_clust_",id,"id.rds"))
 
 
 cat(paste0('# A clustered table was created, you can find it in "',
            paste0(output,name.run,"_seqtab_clust",id,"id.rds"),
            '"\n'))
-
-
 
 cat('# All done!\n')
