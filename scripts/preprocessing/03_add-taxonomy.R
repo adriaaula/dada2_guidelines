@@ -105,14 +105,6 @@ if (grepl('[Dd]ecipher|DECIPHER', method)){ # use decipher
                         taxLevels = ranks,
                         outputBootstraps = TRUE)
   cat('# Taxonomy assigned to genus level\n')
-  
-  if (!is.na(tax_db[2])) { # add species level if db available
-    taxid <- addSpecies(taxid$tax, 
-                        tax_db[2], 
-                        verbose=TRUE, 
-                        allowMultiple=3)
-    cat('\n# Taxonomy assigned to species level\n')    
-  }
 
   tax_table <-
     taxid$tax %>%
@@ -121,6 +113,19 @@ if (grepl('[Dd]ecipher|DECIPHER', method)){ # use decipher
   boot_table <-
     taxid$boot %>%
     as_tibble(rownames = 'seq_name')
+  
+  if (!is.na(tax_db[2])) { # add species level if db available
+    taxid <- addSpecies(taxid$tax, 
+                        tax_db[2], 
+                        verbose=TRUE, 
+                        allowMultiple=3)
+    cat('\n# Taxonomy assigned to species level\n')
+
+    tax_table <- 
+      taxid %>%
+      as_tibble(rownames = 'seq_name')
+          
+  }
   
   write_tsv(tax_table, paste0(output, name, "_tax_assignation_dada.txt"))
   write_tsv(boot_table, paste0(output, name, "_tax_boot_dada.txt"))
